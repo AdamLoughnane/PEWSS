@@ -20,7 +20,7 @@ export default function LoginPage() {
         <div className={styles.loginOptions}>
           <section className={styles.loginOption} aria-labelledby="student-login-title">
             <h2 id="student-login-title">Students</h2>
-            <p>Your programme, readings, workshop group, and paper feedback—all together.</p>
+            <p>Your programme, readings, close-reading group, and paper feedback—all together.</p>
             <p className={styles.portalStatus} id="student-login-status">Coming soon</p>
             <button type="button" className={styles.button} disabled aria-describedby="student-login-status">Student login</button>
           </section>

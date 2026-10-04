@@ -30,7 +30,8 @@
 .heroContent h1 { font-family: var(--serif); font-size: clamp(2.65rem, 5.2vw, 5.25rem); line-height: 1.11; letter-spacing: .095em; text-transform: uppercase; text-shadow: 0 2px 22px rgb(0 0 0 / 25%); }
 .heroTheme { margin-top: 28px; font-family: var(--serif); }
 .heroTheme p { font-size: clamp(1.1rem, 1.8vw, 1.55rem); letter-spacing: .04em; }
-.heroTheme h2 { margin-top: 7px; font-size: clamp(1.5rem, 2.65vw, 2.4rem); font-weight: 400; letter-spacing: .14em; text-transform: uppercase; }
+.heroTheme h2 { margin-top: 7px; font-size: clamp(1.5rem, 2.65vw, 2.4rem); font-weight: 400; letter-spacing: .14em; text-transform: none; }
+.themeName { text-transform: none; }
 .heroDate { display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 22px; font-size: 13px; line-height: 1.7; letter-spacing: .02em; }
 .dateDivider { width: 1px; height: 15px; background: rgb(255 255 255 / 55%); }
 .actions { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 16px; margin-top: 34px; }

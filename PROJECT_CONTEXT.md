@@ -2,6 +2,16 @@
 
 Initially retrieved on 27 September 2026 from the available conversation text in the ChatGPT project **SUMMER SCHOOL**, and checked against the local homepage. Expanded on the same date with the user's two supplied scope documents and accelerated development plan. This is a working project brief, not a complete transcript or a transfer of the ChatGPT project. Planned features, optional ideas, and confirmed implementation are distinguished below.
 
+## Current theme — 4 October 2026
+
+**The agreed 2027 title is `(non)Self and Space`.** Preserve the lowercase `(non)` and capital `Self`. This supersedes **Space and Technē** and all technology-centred theme copy. The institutional name, dates (26–29 May 2027), and venue (University College Cork, Ireland) remain the same.
+
+The user's new description begins with Western phenomenology's century-long challenge to the idea of a self contained within and separate from space, and its growing dialogue with Asian scholars and older philosophical traditions with different starting points. The school continues this dialogue by questioning reified selfhood and space, understanding the self through relations with others, things, places, and worlds, and exploring different conceptions of non-self in relation to embodiment, perception, movement, and dwelling. The central ambition is to rethink the boundaries between self and world and open alternative ways of seeing, inhabiting, and understanding.
+
+The teaching format is **student presentations, lectures, and intensive close-reading groups**. The former technology/AI/robotics focus and proposed morning/afternoon/evening schedule are superseded. Use **Western phenomenology and Asian philosophical traditions**, without narrowing the scope to East Asia or treating distinct conceptions of non-self as equivalent.
+
+The homepage, navigation, application guidance, metadata, programme, audience, image wording, and related portal copy have been revised around this description. Keep the fuller homepage, left-aligned hero, fonts, artwork, sticky-hero scroll effect, Login placeholder, and larger platform scope. References to earlier theme discussions below are historical only.
+
 ## Sources and retrieval limits
 
 - [WEBSITE](https://chatgpt.com/c/6ab8c1c0-7244-83ed-bdaf-b1b074932ee6): five recent exchanges returned, covering typography and the move to the local Codex workspace.
@@ -28,14 +38,14 @@ The immediate scope is **the public website plus a functional application form**
 
 ## Version 1: public launch site
 
-The homepage should communicate a distinctive academic identity, with the encounter between European phenomenology and East Asian philosophical traditions central to the project. The intended section order is:
+The homepage should communicate a distinctive academic identity, with the encounter between Western phenomenology and Asian philosophical traditions central to the project. The intended section order is:
 
-1. **Hero:** “PHENOMENOLOGY EAST AND WEST”; “Summer School 2027: SPACE AND TECHNĒ”; “26–29 May 2027 · University College Cork, Ireland”. Use an animated version of the developed visual, with **Apply Now** and **Learn More** actions. Keep the experience fast and usable on phones.
-2. **The central question:** “How do the spaces we inhabit shape our experience—and how are those spaces transformed by technology?” Follow with the short introduction explaining the European phenomenology / East Asian traditions encounter.
-3. **What the Summer School is:** show the daily format prominently: **Morning seminars · Afternoon workshops · Evening plenary keynotes · Site visits & movement sessions**. Highlight international specialists, small-group teaching, the MA/PhD/ECR/practitioner audience, and graduate ECTS credit.
-4. **2027: Space and Technē:** give a fuller intellectual account of the theme, including the philosophical meanings of space and technē and the East–West approach.
+1. **Hero:** “PHENOMENOLOGY EAST AND WEST”; “Summer School 2027: (non)Self and Space”; “26–29 May 2027 · University College Cork, Ireland”. Use an animated version of the developed visual, with **Apply Now** and **Learn More** actions. Keep the experience fast and usable on phones.
+2. **The central question:** “What if the self is constituted through its relations with others, things, places, and worlds?” Follow with the introduction explaining the dialogue between Western phenomenology and Asian philosophical traditions.
+3. **What the Summer School is:** show the teaching format prominently: **Student presentations · Lectures · Intensive close-reading groups**, with dialogue across traditions throughout. Highlight international specialists, small-group teaching, the MA/PhD/ECR/practitioner audience, and graduate ECTS credit.
+4. **2027: (non)Self and Space:** explain the challenge to reified selfhood and space, the self as constituted through relations, and different conceptions of non-self across Western and Asian traditions.
 5. **Faculty:** photographs, names, affiliations, and short biographies of approximately two or three lines. Homepage cards are sufficient initially; fuller linked profiles can follow.
-6. **Programme / What to expect:** show a sample daily rhythm while the final timetable is unavailable, clearly labelled **Full programme forthcoming**.
+6. **Programme / What to expect:** show the teaching formats while the final timetable is unavailable, clearly labelled **Full programme forthcoming**.
 7. **Essay Competition:** give prominent treatment to the planned selection of the best student essay for publication in the *Journal of Aesthetics and Phenomenology*, with the basic eligibility and competition details that are known.
 8. **ECTS / Who can apply:** address MA students, PhD students, early-career researchers, and practitioners; explain the graduate-credit opportunity and known requirements.
 9. **Cork / UCC:** establish place and atmosphere in a compact section. A full travel guide can follow later.
@@ -80,7 +90,7 @@ PEWSS is one continuing platform serving three connected purposes: public identi
 
 ### Public identity, annual editions, and place
 
-The longer-term site map includes **Home, About PEWSS, 2027: Space and Technē, Faculty, Programme, Apply, ECTS / Graduate Credit, Essay Prize, Coming to Cork, Past Summer Schools, News / Updates, and Contact**. Edition-specific content should fit under a structure such as `/2027/...`; PEWSS remains the permanent identity, with 2027 the inaugural edition. A future top-level organization can be **About · People · Summer Schools · Apply**.
+The longer-term site map includes **Home, About PEWSS, 2027: (non)Self and Space, Faculty, Programme, Apply, ECTS / Graduate Credit, Essay Prize, Coming to Cork, Past Summer Schools, News / Updates, and Contact**. Edition-specific content should fit under a structure such as `/2027/...`; PEWSS remains the permanent identity, with 2027 the inaugural edition. A future top-level organization can be **About · People · Summer Schools · Apply**.
 
 Each edition should eventually preserve its theme, faculty, programme, photographs, selected recordings/resources, essay-prize winner, and testimonials/highlights. Subsequent editions reuse the infrastructure. Archive public material appropriately; private profiles, applications, and papers follow the agreed retention policy.
 
@@ -163,14 +173,14 @@ The attachment proposed the following longer programme. Its feature coverage rem
 ## Identity and programme
 
 - Recurring school: **Phenomenology East and West Summer School** (PEWSS).
-- Current website theme: **Space and Technē**.
+- Current website theme: **(non)Self and Space** (agreed 4 October 2026).
 - Dates in the draft copy and local homepage: **26–29 May 2027**.
 - Location in the local homepage: **University College Cork, Ireland**.
-- Central question: how the spaces we inhabit shape experience, and how technology transforms those spaces.
-- East–West encounter: European phenomenology in conversation with East Asian philosophical traditions.
+- Central question: how the self is constituted through relations with others, things, places, and worlds, and how non-self transforms our understanding of embodied experience.
+- East–West encounter: Western phenomenology in dialogue with Asian philosophical traditions.
 - Intended audience in the draft: graduate students, early-career researchers, and practitioners, including artists, architects, and performers.
 
-The user's blurb brief requests graduate credit, an essay competition, world-leading international specialists, and close learning in small workshop groups. Topics include space, technology, architecture, movement, perception, how technology binds or frees us, AI, robotics, and automation. Approaches span philosophy, arts, performance, architecture, dance, movement studies, digital humanities, and spatial humanities.
+The original blurb brief (superseded in theme and teaching format) requests graduate credit, an essay competition, world-leading international specialists, and close learning in small workshop groups. Topics include space, technology, architecture, movement, perception, how technology binds or frees us, AI, robotics, and automation. Approaches span philosophy, arts, performance, architecture, dance, movement studies, digital humanities, and spatial humanities.
 
 The assistant's draft also describes student presentations on the opening day, embodied/site-based inquiry, and publication of the winning essay in the *Journal of Aesthetics and Phenomenology*. The subsequently supplied scope includes the essay-prize publication opportunity and embodied/site-based activities as planned features. Institutional arrangements and detailed eligibility/credit requirements have not been independently verified; the opening-day presentation detail comes from the earlier draft.
 
@@ -178,12 +188,12 @@ The assistant's draft also describes student presentations on the opening day, e
 
 The WEBSITE chat describes an existing local repository at `/Users/adamloughnane/Developer/PEWSS`, a GitHub repository named `AdamLoughnane/PEWSS`, and Vercel deployment. The remote/deployment state was not verified during this context import.
 
-The user wanted **Phenomenology East and West Summer School** to be more prominent and then asked to reduce **Space and Technē**. The current local `app/page.tsx` already contains the size changes suggested in that discussion:
+The user wanted **Phenomenology East and West Summer School** to be more prominent and then asked to reduce **Space and Technē**. At the initial import, `app/page.tsx` contained the following size changes, preceding the fuller homepage:
 
 - School name in the hero: `text-2xl md:text-3xl lg:text-4xl`.
 - Theme heading: `text-5xl md:text-7xl lg:text-8xl`, serif, with a break between “Space and” and “Technē”.
 
-The current page uses `/pewss-hero.jpg` as a full-screen hero background, white overlaid typography, a dark overlay, and a warm off-white About section. Navigation includes About, 2027, Faculty, Programme, and Apply. The existence or completeness of the linked destinations was not checked during this import.
+At the initial import, the page used `/pewss-hero.jpg` as a full-screen hero background, white overlaid typography, a dark overlay, and a warm off-white About section. Navigation includes About, 2027, Faculty, Programme, and Apply. The existence or completeness of the linked destinations was not checked during this import.
 
 Local package versions at import: Next.js 16.3.6, React 19.2.8, and Tailwind CSS 4. Read the installed Next.js guides before code changes, as required by AGENTS.md.
 
@@ -195,9 +205,9 @@ The user questioned PowerPoint as the production format and accepted preparation
 
 Reported artifact names include `PEW_2027_Photopea_package.zip`, `PEW_2027_Photopea_starter_master.svg`, `FINAL_COPY.txt`, and `PEW_2027_production_package.zip`. These artifacts have not been downloaded or inspected here.
 
-## Open design question
+## Previous title exploration (superseded)
 
-The user observed that “Space and Technē” leans too much toward Greece and asked for a better East–West balance. The assistant proposed options including “Making Space: Technē, Waza, and Technologies of Inhabiting”, “Making Space: Technology, Movement, and the Art of Inhabiting”, “Ways of Inhabiting: Space, Technology, Movement”, and “Space, Technē, Waza: Technology and the Art of Inhabiting”. No replacement title was selected in the retrieved messages. The local website continues to use **Space and Technē**.
+The user observed that “Space and Technē” leans too much toward Greece and asked for a better East–West balance. The assistant proposed options including “Making Space: Technē, Waza, and Technologies of Inhabiting”, “Making Space: Technology, Movement, and the Art of Inhabiting”, “Ways of Inhabiting: Space, Technology, Movement”, and “Space, Technē, Waza: Technology and the Art of Inhabiting”. No replacement title was selected in those retrieved messages. The subsequent decision on 4 October 2026 establishes **(non)Self and Space** as the title; the earlier suggestions are not active options.
 
 ## State at import
 

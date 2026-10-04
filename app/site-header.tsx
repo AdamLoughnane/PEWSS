@@ -6,7 +6,7 @@ import styles from "./home.module.css";
 
 const links = [
   ["About", "/#about"],
-  ["2027: Space and Technē", "/#theme"],
+  ["2027: (non)Self and Space", "/#theme"],
   ["Programme", "/#programme"],
   ["Faculty", "/#faculty"],
 ] as const;

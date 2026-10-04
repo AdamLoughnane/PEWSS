@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PEWSS 2027 — Phenomenology East and West Summer School",
+  title: "(non)Self and Space — PEWSS 2027",
   description:
-    "Space and Technē. Four days of seminars, workshops, and philosophical exchange at University College Cork, Ireland. 26–29 May 2027.",
+    "(non)Self and Space. Explore selfhood and space through Western phenomenology and Asian philosophical traditions. University College Cork, 26–29 May 2027.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
