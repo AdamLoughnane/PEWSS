@@ -6,6 +6,14 @@ The application form at `/apply` sends submissions to **adam.loughnane@ucc.ie** 
 
 The user also operates Samedif using Cloudflare, Resend, and Vercel. Keep all PEWSS resources separate. Use only the Cloudflare zone `pewss.org`, the Resend sending domain `mail.pewss.org` in Ireland with a dedicated sending-only domain-scoped key, and project-scoped production variables and rules in Vercel's `samedifs-projects/pewss` project. The Vercel team name is shared; that does not authorise changes to team-wide settings or any other project. Never reuse Samedif credentials or change its DNS, sending domains, firewall rules, or environment variables.
 
+## Production activation
+
+Applications are open. All three production variables below are configured. The dedicated Resend key is named `PEWSS applications — production`, has Sending access only, and is restricted to `mail.pewss.org`. The sender is `PEWSS Applications <applications@mail.pewss.org>`. No key value is stored in this repository.
+
+The live form accepted a clearly labelled test with reference `PEWSS-2027-874826c5-fb63-4f43-a72a-0b606df3d769`, and Resend reported **Delivered** to `adam.loughnane@ucc.ie`. Inbox/spam placement was not independently inspected. The live test used the required text fields without a photograph; attachment handling is covered by the automated tests.
+
+Only three records were added to the `pewss.org` Cloudflare zone: TXT `resend._domainkey.mail` with Resend's public DKIM key, CNAME `rsend.mail` to `rsend-euw1.forge.rmta.net`, and CNAME `send.mail` to `send.forge.rmta.net`. Both CNAMEs are DNS-only. Existing website records were preserved. Resend shows the domain verified with Forge enabled in Ireland; receiving and tracking were not enabled as part of this work.
+
 ## Activate delivery
 
 1. Create or use the organiser's Resend account, and verify a sending domain that PEWSS controls, for example `mail.pewss.org`. Add the exact DNS records supplied by Resend. Do not change the UCC domain or its mail records.
