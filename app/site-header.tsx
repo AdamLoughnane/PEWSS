@@ -8,7 +8,7 @@ const links = [
   ["About", "/#about"],
   ["2027: (non)Self and Space", "/#theme"],
   ["Programme", "/#programme"],
-  ["Faculty", "/#faculty"],
+  ["Faculty", "/faculty"],
 ] as const;
 
 export function SiteHeader({ light = false }: { light?: boolean }) {

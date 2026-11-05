@@ -122,8 +122,9 @@ export default function Home() {
                 <p className={styles.eyebrow}>05 / Faculty</p>
                 <h2>A meeting of<br />perspectives</h2>
                 <p>We are bringing together international scholars working across Western phenomenology and Asian philosophical traditions, with shared questions about selfhood, non-self, and space.</p>
-                <p>Meet the people who will lead the conversations: photographs, biographies, and session details will appear here as the faculty is announced.</p>
+                <p>Meet the people who will lead the conversations: photographs, biographies, and session details will be published on the faculty page as the faculty is announced.</p>
                 <p className={styles.status}><span className={styles.statusDot} aria-hidden="true" />Faculty announcements coming soon</p>
+                <Link href="/faculty" className={`${styles.button} ${styles.darkButton}`}>View faculty page <Arrow /></Link>
               </article>
             </div>
           </section>
@@ -149,7 +150,7 @@ export default function Home() {
           <section className={styles.closing} aria-labelledby="join-title">
             <div className={styles.container}><p className={styles.eyebrow}>Phenomenology East and West · 2027</p><h2 id="join-title">Join us in Cork.</h2><p className={styles.closingDate}>26–29 May 2027 · (non)Self and Space</p><Link href="/apply" className={`${styles.button} ${styles.goldButton}`}>Application information <span aria-hidden="true">→</span></Link><p className={styles.closingNote}>Applications opening soon</p></div>
           </section>
-          <footer className={styles.footer}><div className={styles.container}><a href="#home" className={styles.footerBrand}>PEWSS<span>Phenomenology East and West Summer School</span></a><nav aria-label="Footer"><a href="#about">About</a><a href="#programme">Programme</a><a href="#faculty">Faculty</a><Link href="/apply">Apply</Link><a href="#home">Back to top ↑</a></nav><p>University College Cork, Ireland · 26–29 May 2027</p></div></footer>
+          <footer className={styles.footer}><div className={styles.container}><a href="#home" className={styles.footerBrand}>PEWSS<span>Phenomenology East and West Summer School</span></a><nav aria-label="Footer"><a href="#about">About</a><a href="#programme">Programme</a><Link href="/faculty">Faculty</Link><Link href="/apply">Apply</Link><a href="#home">Back to top ↑</a></nav><p>University College Cork, Ireland · 26–29 May 2027</p></div></footer>
         </div>
       </main>
     </>

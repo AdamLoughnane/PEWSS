@@ -232,3 +232,7 @@ The UCC campus photograph at `public/ucc-campus.webp` is sourced from [UCC's vis
 The implementation remains local; nothing was committed, pushed, or deployed as part of this draft. Lint and TypeScript checks passed. The production build passed with `npm run build -- --webpack`; the default Turbopack build encountered an environment restriction when binding its local CSS-worker port.
 
 The shared header now has a **Login** button beside **Apply**, including on mobile. It leads to `/login`, a placeholder with separate **Student login** and **Faculty login** options, both disabled and labelled “Coming soon”. No authentication, accounts, credential collection, or portal access is implemented yet. This is a visible entry point for the later student/faculty platform.
+
+## Faculty page — 5 November 2026
+
+Faculty now has a separate public route at `/faculty`, displaying **Faculty announcements coming soon** in the site's existing typography and colours. Desktop and mobile navigation, the homepage footer, and the homepage faculty teaser link to this page. The homepage retains a brief introduction to the faculty; future announcements and profiles belong on the dedicated page. The requested public address is `https://pewss.org/faculty`.
