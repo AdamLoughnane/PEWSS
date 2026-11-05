@@ -241,6 +241,8 @@ Faculty now has a separate public route at `/faculty`, displaying **Faculty anno
 
 ## Application form — 5 November 2026
 
+**Service isolation:** the user also uses Cloudflare, Resend, and Vercel for **Samedif**. Keep PEWSS resources and settings separate. Changes must target only the `pewss.org` Cloudflare zone, a PEWSS-specific Resend sending domain/key, and the `samedifs-projects/pewss` Vercel project. Do not modify Samedif or shared account/team settings, and do not reuse its credentials.
+
 The user approved the project-brief fields and preparing delivery through **Resend** to **adam.loughnane@ucc.ie**. `/apply` now has name, email, affiliation, career stage, country, research interests, biography, statement, optional website/ORCID and photograph, ECTS interest, privacy acknowledgement, and separate photograph permission. Photograph and affiliation are optional; photo permission does not authorise a public profile.
 
 The server validates submissions and emails the fixed recipient, using the applicant's address for Reply-To and including any permitted photograph as an attachment. It returns an on-page confirmation only after the email provider accepts the message; failures preserve the browser's entries. There is no application database or applicant confirmation email yet. Email records are the initial administrative record. Accessibility and dietary information remain deferred.
