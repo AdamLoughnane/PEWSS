@@ -22,6 +22,7 @@ export default function FacultyPage() {
           <h1>Faculty</h1>
           <p className={facultyStyles.lead}>A meeting of perspectives.</p>
           <p className={facultyStyles.description}>Meet the scholars joining us in Cork to explore selfhood, non-self, and space through European phenomenology and Asian philosophical traditions.</p>
+          <p className={facultyStyles.updates}>More faculty announcements coming soon. Check back for updates.</p>
         </header>
 
         <section className={facultyStyles.grid} aria-label="2027 faculty profiles">

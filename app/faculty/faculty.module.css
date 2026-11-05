@@ -30,6 +30,15 @@
   line-height: 1.8;
 }
 
+.updates {
+  margin-top: 24px;
+  padding-left: 16px;
+  border-left: 2px solid var(--gold);
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
