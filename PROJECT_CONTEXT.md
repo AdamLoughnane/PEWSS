@@ -236,3 +236,11 @@ The shared header now has a **Login** button beside **Apply**, including on mobi
 ## Faculty page — 5 November 2026
 
 Faculty now has a separate public route at `/faculty`, displaying **Faculty announcements coming soon** in the site's existing typography and colours. Desktop and mobile navigation, the homepage footer, and the homepage faculty teaser link to this page. The homepage retains a brief introduction to the faculty; future announcements and profiles belong on the dedicated page. The requested public address is `https://pewss.org/faculty`.
+
+## Application form — 5 November 2026
+
+The user approved the project-brief fields and preparing delivery through **Resend** to **adam.loughnane@ucc.ie**. `/apply` now has name, email, affiliation, career stage, country, research interests, biography, statement, optional website/ORCID and photograph, ECTS interest, privacy acknowledgement, and separate photograph permission. Photograph and affiliation are optional; photo permission does not authorise a public profile.
+
+The server validates submissions and emails the fixed recipient, using the applicant's address for Reply-To and including any permitted photograph as an attachment. It returns an on-page confirmation only after the email provider accepts the message; failures preserve the browser's entries. There is no application database or applicant confirmation email yet. Email records are the initial administrative record. Accessibility and dietary information remain deferred.
+
+Delivery must be configured and verified before opening applications. Required server settings are `RESEND_API_KEY`, `APPLICATION_FROM_EMAIL` on a verified sending domain, and `APPLICATIONS_OPEN=true`. Without them, the form is a clearly labelled preview with submission disabled, and the endpoint rejects requests. See `docs/application-email-setup.md` for setup and delivery verification. This supersedes the earlier statement that the form itself has not been implemented; it does not establish that live email delivery has been activated.
