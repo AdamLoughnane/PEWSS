@@ -121,9 +121,10 @@ export default function Home() {
               <article id="faculty">
                 <p className={styles.eyebrow}>05 / Faculty</p>
                 <h2>A meeting of<br />perspectives</h2>
-                <p>Our faculty brings together scholars from Galway, Michigan Technological University, Tokyo, and Cork, with shared questions about selfhood, non-self, and space.</p>
-                <p>Meet Felix Ó Murchadha, Scott Marratto, Yukiko Kuwayama, Jason Dockstader, Alessandro Salice, and Adam Loughnane, and explore their work across phenomenology and Asian philosophical traditions.</p>
-                <Link href="/faculty" className={`${styles.button} ${styles.darkButton}`}>Meet the faculty <Arrow /></Link>
+                <p>We are bringing together international scholars working across Western phenomenology and Asian philosophical traditions, with shared questions about selfhood, non-self, and space.</p>
+                <p>Meet the people who will lead the conversations: photographs, biographies, and session details will be published on the faculty page as the faculty is announced.</p>
+                <p className={styles.status}><span className={styles.statusDot} aria-hidden="true" />Faculty announcements coming soon</p>
+                <Link href="/faculty" className={`${styles.button} ${styles.darkButton}`}>View faculty page <Arrow /></Link>
               </article>
             </div>
           </section>

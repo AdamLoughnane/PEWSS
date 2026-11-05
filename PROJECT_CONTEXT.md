@@ -235,11 +235,9 @@ The shared header now has a **Login** button beside **Apply**, including on mobi
 
 ## Faculty page — 5 November 2026
 
-Faculty has a separate public route at `/faculty`, now populated at the user's request with portraits and short biographies for **Felix Ó Murchadha (University of Galway), Scott Marratto (Michigan Technological University), Yukiko Kuwayama (The University of Tokyo), Jason Dockstader, Alessandro Salice, and Adam Loughnane (University College Cork)**, in that order. It replaces the earlier “Faculty announcements coming soon” placeholder. The homepage teaser now introduces these six faculty members.
+Faculty now has a separate public route at `/faculty`, displaying **Faculty announcements coming soon** in the site's existing typography and colours. Desktop and mobile navigation, the homepage footer, and the homepage faculty teaser link to this page. The homepage retains a brief introduction to the faculty; future announcements and profiles belong on the dedicated page. The requested public address is `https://pewss.org/faculty`.
 
-Names, affiliations, and bios were checked against public academic profiles. The spelling “Felix Ó Murchadha” follows his published name; “Michigan” refers to Michigan Technological University. Portraits are stored locally in `public/faculty/`, with visible source links and the named photographer credit where available. Profile data is maintained in `app/faculty/faculty.ts`; research and image provenance are recorded in `docs/faculty-sources.md`. These are editorial summaries, not biographies approved by the faculty. No keynote designation, session assignment, or final timetable has been inferred.
-
-Desktop and mobile navigation, the homepage footer, and the homepage faculty teaser link to the dedicated page at `https://pewss.org/faculty`.
+**Publication paused at the user's request:** the six-profile page was prepared and briefly published, then archived while awaiting confirmation from at least two more invitees. Restore it only when the user asks. The full layout, biographies, source records, six photographs, and subsequent updates notice are preserved at Git commit `77d09b8`, on local branch `codex/archive-faculty-profiles`, and in `output/archives/PEWSS-faculty-profiles-2026-11-05.zip`. The public page and homepage teaser are back to the earlier placeholder, and the portrait assets are removed from the current deployment. See `docs/faculty-archive.md` for restoration instructions that preserve later site changes.
 
 ## Application form — 5 November 2026
 
