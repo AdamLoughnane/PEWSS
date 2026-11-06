@@ -6,7 +6,7 @@ import ts from "typescript";
 // Use the installed TypeScript compiler so tests also run on the project's Node 20.
 const source = await readFile(new URL("../lib/applications.ts", import.meta.url), "utf8");
 const { outputText } = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ES2022 } });
-const { validateApplication, buildApplicationEmail, handleApplicationRequest, MAX_PHOTO_BYTES, MAX_REQUEST_BYTES } = await import(`data:text/javascript;base64,${Buffer.from(outputText).toString("base64")}`);
+const { validateApplication, buildApplicationEmail, handleApplicationRequest, sameOriginRequest, MAX_PHOTO_BYTES, MAX_REQUEST_BYTES } = await import(`data:text/javascript;base64,${Buffer.from(outputText).toString("base64")}`);
 
 const config = { open: "true", apiKey: "test-key-not-a-real-credential", from: "PEWSS <applications@example.com>" };
 const id = "42e5f0ce-3e6a-4c22-81ea-3923f2502ffb";
@@ -124,5 +124,23 @@ test("provider errors, invalid responses and network failures never claim succes
     assert.equal(result.ok, undefined);
     assert.ok(!JSON.stringify(result).includes("private-provider-detail"));
     assert.match(result.message, /could not confirm/);
+  }
+});
+
+test("durable storage precedes email and preserves applications when notification fails", async () => {
+  let saved=false, notified=false;
+  const store={save:async(application,reference)=>{assert.equal(reference,`PEWSS-2027-${id}`);assert.equal(application.email,'applicant@example.com');saved=true;return {notified:false};},markNotified:async()=>{notified=true;}};
+  const response=await handleApplicationRequest(request(),config,async()=>{assert.equal(saved,true);throw new Error('offline');},store);
+  assert.equal(response.status,200);assert.equal((await response.json()).ok,true);assert.equal(notified,false);
+  assert.equal((await handleApplicationRequest(request(),config,neverDeliver,{save:async()=>{throw new Error('database offline');},markNotified:async()=>{}})).status,503);
+  assert.equal((await handleApplicationRequest(request(),config,neverDeliver,{save:async()=>({notified:true}),markNotified:async()=>{}})).status,200);
+});
+
+
+test("same-origin validation respects the public host behind a reverse proxy", () => {
+  const headers = {host:"pewss.org", "x-forwarded-proto":"https", origin:"https://pewss.org"};
+  assert.equal(sameOriginRequest(new Request("http://localhost/api/applications", {headers})),true);
+  for (const origin of ["https://other.example", "null", "https://pewss.org.attacker.example", "https://pewss.org/path"]) {
+    assert.equal(sameOriginRequest(new Request("http://localhost/api/applications", {headers:{...headers,origin}})),false);
   }
 });

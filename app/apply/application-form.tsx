@@ -6,7 +6,7 @@ import { careerStages, creditChoices, MAX_PHOTO_BYTES, textFields, type FieldErr
 import styles from "./application-form.module.css";
 import siteStyles from "../home.module.css";
 
-export function ApplicationForm({ enabled }: { enabled: boolean }) {
+export function ApplicationForm({ enabled, stored = false }: { enabled: boolean; stored?: boolean }) {
   const [pending, setPending] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [message, setMessage] = useState("");
@@ -96,7 +96,7 @@ export function ApplicationForm({ enabled }: { enabled: boolean }) {
     <div className={styles.confirmation} ref={feedback} tabIndex={-1} role="status">
       <p className={siteStyles.eyebrow}>Thank you for applying</p>
       <h2>Your application has been submitted.</h2>
-      <p>It has been sent to the organising team. We will contact you at the email address you provided.</p>
+      <p>The organising team has received your application. We will contact you at the email address you provided.</p>
       <p className={styles.reference}>Your reference: <strong>{reference}</strong></p>
       <p>Please save this reference for your records.</p>
       <Link href="/" className={`${siteStyles.button} ${siteStyles.darkButton}`}>Back to the Summer School <span aria-hidden="true">→</span></Link>
@@ -149,6 +149,7 @@ export function ApplicationForm({ enabled }: { enabled: boolean }) {
         <div className={styles.privacy}>
           <h3>How your application is used</h3>
           <p>Your information and any photograph will be emailed to the PEWSS organising team to review your application and contact you about the Summer School.</p>
+          {stored && <p>A copy is also stored securely in the organising team’s private application dashboard.</p>}
           <p>Submitting this form does not create a public profile or add you to a mailing list.</p>
         </div>
         <div className={styles.field}><label className={styles.checkbox} htmlFor="privacyAcknowledgement"><input type="checkbox" id="privacyAcknowledgement" name="privacyAcknowledgement" value="yes" required aria-invalid={Boolean(errors.privacyAcknowledgement)} aria-describedby={errors.privacyAcknowledgement ? "privacyAcknowledgement-error" : undefined} /><span>I understand that my information will be sent to the organising team and used to review my application and contact me about the Summer School.</span></label>{errors.privacyAcknowledgement && <p id="privacyAcknowledgement-error" className={styles.error}>{errors.privacyAcknowledgement}</p>}</div>

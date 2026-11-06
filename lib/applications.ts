@@ -128,14 +128,30 @@ export function buildApplicationEmail(application: Application, from: string, re
 }
 
 export type DeliveryConfig = { apiKey?: string; from?: string; open?: string };
+export type ApplicationStore = {
+  save(application: Application, reference: string): Promise<{ notified: boolean }>;
+  markNotified(reference: string): Promise<void>;
+};
 
 export function applicationsEnabled(config: DeliveryConfig) {
   return config.open === "true" && Boolean(config.apiKey?.trim()) && Boolean(config.from?.trim());
 }
 
-export async function handleApplicationRequest(request: Request, config: DeliveryConfig, deliver: typeof fetch = fetch) {
+export function sameOriginRequest(request: Request) {
+  try {
+    const origin = request.headers.get("origin");
+    if (!origin) return false;
+    const parsed = new URL(origin);
+    const url = new URL(request.url);
+    const host = request.headers.get("host") ?? url.host;
+    const protocol = request.headers.get("x-forwarded-proto") ?? url.protocol.slice(0, -1);
+    return parsed.origin === origin && parsed.host === host && parsed.protocol === `${protocol}:`;
+  } catch { return false; }
+}
+
+export async function handleApplicationRequest(request: Request, config: DeliveryConfig, deliver: typeof fetch = fetch, store?: ApplicationStore) {
   const json = (body: object, status: number) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
-  if (request.headers.get("origin") !== new URL(request.url).origin) return json({ message: "Please submit your application from the PEWSS website." }, 403);
+  if (!sameOriginRequest(request)) return json({ message: "Please submit your application from the PEWSS website." }, 403);
   if (!applicationsEnabled(config)) return json({ message: "Applications are not open yet. Please return when submissions open." }, 503);
   if (!request.headers.get("content-type")?.startsWith("multipart/form-data")) return json({ message: "Please use the application form to submit your information." }, 415);
   if (Number(request.headers.get("content-length")) > MAX_REQUEST_BYTES) return json({ message: "This submission is too large. Please use a photograph smaller than 2 MB." }, 413);
@@ -167,6 +183,14 @@ export async function handleApplicationRequest(request: Request, config: Deliver
   const submissionId = form.get("submissionId");
   if (typeof submissionId !== "string" || !/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(submissionId)) return json({ message: "Please reload the page and try again." }, 400);
   const reference = `PEWSS-2027-${submissionId}`;
+  if (store) {
+    try {
+      const saved = await store.save(validated.application, reference);
+      if (saved.notified) return json({ ok: true, reference }, 200);
+    } catch {
+      return json({ message: "We could not save your application. Your entries are still here. Please try again, or contact adam.loughnane@ucc.ie." }, 503);
+    }
+  }
   try {
     const response = await deliver("https://api.resend.com/emails", {
       method: "POST",
@@ -176,8 +200,11 @@ export async function handleApplicationRequest(request: Request, config: Deliver
     });
     const result = await response.json();
     if (!response.ok || typeof result.id !== "string" || !result.id) throw new Error("Email delivery request was not accepted");
+    if (store) await store.markNotified(reference);
     return json({ ok: true, reference }, 200);
   } catch {
+    // A durable record is a successful submission even if the organiser notification fails.
+    if (store) return json({ ok: true, reference }, 200);
     // Never expose credentials, provider responses, or applicant data in logs/errors.
     return json({ message: "We could not confirm that your application was sent. Your entries are still here. Please try again, or contact adam.loughnane@ucc.ie." }, 502);
   }

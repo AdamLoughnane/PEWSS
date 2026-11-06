@@ -1,4 +1,5 @@
 import { handleApplicationRequest } from "../../../lib/applications";
+import { applicationStore } from "../../../lib/admin/applications";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
@@ -8,5 +9,5 @@ export async function POST(request: Request) {
     apiKey: process.env.RESEND_API_KEY,
     from: process.env.APPLICATION_FROM_EMAIL,
     open: process.env.APPLICATIONS_OPEN,
-  });
+  }, fetch, process.env.APPLICATION_STORAGE_ENABLED === "true" ? applicationStore() : undefined);
 }
