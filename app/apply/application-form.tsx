@@ -12,6 +12,8 @@ export function ApplicationForm({ enabled }: { enabled: boolean }) {
   const [message, setMessage] = useState("");
   const [reference, setReference] = useState("");
   const [hasPhoto, setHasPhoto] = useState(false);
+  const photoInput = useRef<HTMLInputElement>(null);
+  const photoConsentInput = useRef<HTMLInputElement>(null);
   const [counts, setCounts] = useState<Record<string, number>>({});
   const submissionId = useRef<string | null>(null);
   const submitting = useRef(false);
@@ -20,6 +22,24 @@ export function ApplicationForm({ enabled }: { enabled: boolean }) {
   useEffect(() => {
     if (message || reference) feedback.current?.focus();
   }, [message, reference]);
+
+  function updatePhoto(hasFile: boolean) {
+    setHasPhoto(hasFile);
+    if (photoConsentInput.current) photoConsentInput.current.checked = false;
+    submissionId.current = null;
+    setErrors((current) => {
+      const next = { ...current };
+      delete next.photo;
+      delete next.photoConsent;
+      return next;
+    });
+  }
+
+  function removePhoto() {
+    if (photoInput.current) photoInput.current.value = "";
+    updatePhoto(false);
+    photoInput.current?.focus();
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -108,16 +128,17 @@ export function ApplicationForm({ enabled }: { enabled: boolean }) {
       <fieldset disabled={pending} className={styles.group}>
         <legend><span>03</span> Links and photograph</legend>
         <div className={styles.grid}>
-          {field("website", { type: "url", hint: "A full address, beginning with https://." })}
+          {field("website", { hint: "For example, example.com or www.example.com. No https:// needed." })}
           {field("orcid", { hint: "Your 16-character iD, e.g. 0000-0002-1825-0097." })}
         </div>
         <div className={styles.field}>
           <label htmlFor="photo">Profile photograph <span>(optional)</span></label>
           <p id="photo-hint" className={styles.hint}>JPEG, PNG, or WebP. Maximum 2 MB. Your photograph will be attached to your application email.</p>
-          <input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/webp" aria-invalid={Boolean(errors.photo)} aria-describedby={`photo-hint${errors.photo ? " photo-error" : ""}`} onChange={(event) => setHasPhoto(Boolean(event.target.files?.length))} />
+          <input ref={photoInput} type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/webp" aria-invalid={Boolean(errors.photo)} aria-describedby={`photo-hint${errors.photo ? " photo-error" : ""}`} onChange={(event) => updatePhoto(Boolean(event.target.files?.length))} />
+          {hasPhoto && <button type="button" className={styles.removePhoto} onClick={removePhoto}>Remove photograph</button>}
           {errors.photo && <p id="photo-error" className={styles.error}>{errors.photo}</p>}
         </div>
-        {hasPhoto && <div className={styles.field}><label className={styles.checkbox} htmlFor="photoConsent"><input type="checkbox" id="photoConsent" name="photoConsent" value="yes" required aria-invalid={Boolean(errors.photoConsent)} aria-describedby={errors.photoConsent ? "photoConsent-error" : undefined} /><span>I give permission for the organising team to use this photograph with my application. It will not be published without separate permission.</span></label>{errors.photoConsent && <p id="photoConsent-error" className={styles.error}>{errors.photoConsent}</p>}</div>}
+        {hasPhoto && <div className={styles.field}><label className={styles.checkbox} htmlFor="photoConsent"><input ref={photoConsentInput} type="checkbox" id="photoConsent" name="photoConsent" value="yes" required aria-invalid={Boolean(errors.photoConsent)} aria-describedby={errors.photoConsent ? "photoConsent-error" : undefined} /><span>I give permission for the organising team to use this photograph with my application. It will not be published without separate permission.</span></label>{errors.photoConsent && <p id="photoConsent-error" className={styles.error}>{errors.photoConsent}</p>}</div>}
       </fieldset>
       <fieldset disabled={pending} className={styles.group}>
         <legend><span>04</span> Graduate credit</legend>
@@ -127,8 +148,8 @@ export function ApplicationForm({ enabled }: { enabled: boolean }) {
         <legend><span>05</span> Before you submit</legend>
         <div className={styles.privacy}>
           <h3>How your application is used</h3>
-          <p>Your information and any photograph will be emailed to Adam Loughnane at <a href="mailto:adam.loughnane@ucc.ie">adam.loughnane@ucc.ie</a> for the organising team to review your application and contact you about the Summer School.</p>
-          <p>Resend processes the email delivery. Submitting this form does not create a public profile or add you to a mailing list. Please do not include health information or other sensitive personal details in your answers. Contact Adam at the address above with questions about your application or information.</p>
+          <p>Your information and any photograph will be emailed to the PEWSS organising team to review your application and contact you about the Summer School.</p>
+          <p>Submitting this form does not create a public profile or add you to a mailing list.</p>
         </div>
         <div className={styles.field}><label className={styles.checkbox} htmlFor="privacyAcknowledgement"><input type="checkbox" id="privacyAcknowledgement" name="privacyAcknowledgement" value="yes" required aria-invalid={Boolean(errors.privacyAcknowledgement)} aria-describedby={errors.privacyAcknowledgement ? "privacyAcknowledgement-error" : undefined} /><span>I understand that my information will be sent to the organising team and used to review my application and contact me about the Summer School.</span></label>{errors.privacyAcknowledgement && <p id="privacyAcknowledgement-error" className={styles.error}>{errors.privacyAcknowledgement}</p>}</div>
         <div className={styles.trap} aria-hidden="true"><label htmlFor="companyWebsite">Leave this field empty</label><input id="companyWebsite" name="companyWebsite" type="text" tabIndex={-1} autoComplete="off" /></div>

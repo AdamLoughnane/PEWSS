@@ -40,6 +40,25 @@ test("rejects unsafe URLs, bad ORCID checksums, and header injection", async () 
   for (const key of ["name", "website", "orcid"]) assert.ok(result.errors[key]);
 });
 
+test("accepts website addresses without a scheme and normalises them for email", async () => {
+  for (const [input, expected] of [
+    ["example.com", "https://example.com/"],
+    ["www.example.com/profile?lang=en", "https://www.example.com/profile?lang=en"],
+    ["https://example.com/about", "https://example.com/about"],
+    ["http://example.com", "http://example.com/"],
+  ]) {
+    const form = validForm(); form.set("website", input);
+    const result = await validateApplication(form);
+    assert.equal(result.ok, true, input);
+    assert.equal(result.application.website, expected);
+    assert.ok(buildApplicationEmail(result.application, config.from, id).text.includes(expected));
+  }
+  for (const input of ["javascript:alert(1)", "ftp://example.com", "user:password@example.com", "not a website"]) {
+    const form = validForm(); form.set("website", input);
+    assert.ok((await validateApplication(form)).errors.website, input);
+  }
+});
+
 test("valid photo requires consent, keeps a safe attachment filename, and escapes email markup", async () => {
   const form = validForm();
   form.set("photo", new Blob([Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1sAAAAASUVORK5CYII=", "base64")], { type: "image/png" }), "../../<unsafe>.png");

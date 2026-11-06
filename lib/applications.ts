@@ -53,10 +53,13 @@ export async function validateApplication(form: FormData): Promise<
   if (values.email && !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(values.email)) errors.email = "Please enter a valid email address.";
   if (values.website) {
     try {
-      const url = new URL(values.website);
+      const address = /^[a-z][a-z\d+.-]*:/i.test(values.website) ? values.website : `https://${values.website}`;
+      if (/\s/.test(address)) throw new Error();
+      const url = new URL(address);
       if (!["https:", "http:"].includes(url.protocol) || !url.hostname || url.username || url.password) throw new Error();
+      values.website = url.href;
     } catch {
-      errors.website = "Please enter a full website address beginning with https:// or http://.";
+      errors.website = "Please enter a valid website address, such as example.com.";
     }
   }
   values.orcid = values.orcid.toUpperCase();

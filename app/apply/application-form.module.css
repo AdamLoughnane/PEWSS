@@ -5,7 +5,7 @@
 .notice p { margin-top: 4px; }
 .group { min-width: 0; margin-block: 32px 0; padding-top: 24px; border-top: 1px solid var(--line); }
 .group legend { padding-right: 20px; font-family: var(--serif); font-size: 25px; line-height: 1.35; }
-.group legend > span { margin-right: 13px; color: #866f58; font-size: 16px; font-style: italic; }
+.group legend > span { margin-right: 13px; color: #866f58; font-size: 32px; font-style: italic; }
 .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
 .field { min-width: 0; margin-bottom: 24px; }
 .field > label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; line-height: 1.6; }
@@ -16,6 +16,9 @@
 .field textarea { resize: vertical; min-height: 120px; }
 .field input[type="file"] { padding: 10px; font-size: 13px; }
 .field input[type="file"]::file-selector-button { margin-right: 12px; border: 0; background: var(--stone); color: var(--ink); padding: 10px 12px; font: inherit; cursor: pointer; }
+.removePhoto { margin-top: 10px; min-height: 44px; padding: 8px 14px; border: 1px solid #aaa99e; background: transparent; color: var(--ink); font: inherit; font-size: 13px; cursor: pointer; }
+.removePhoto:hover { background: var(--stone); }
+.removePhoto:disabled { cursor: not-allowed; }
 .field [aria-invalid="true"] { border-color: #8c3731; }
 .field select { min-height: 50px; }
 .count { margin-top: 6px; color: var(--muted); text-align: right; font-size: 11px; }
