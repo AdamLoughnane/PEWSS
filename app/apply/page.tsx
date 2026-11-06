@@ -24,7 +24,7 @@ export default function ApplyPage() {
       <SiteHeader light />
       <main id="application" className={styles.applicationIntro}>
         <p className={styles.eyebrow}><span className={styles.themeName}>(non)Self and Space</span> · 26–29 May 2027</p>
-        <h1>Be part of<br />the conversation.</h1>
+        <h1>Join us at PEWSS 2027—apply today.</h1>
         <p>The inaugural Phenomenology East and West Summer School welcomes MA and PhD students, early-career researchers, and practitioners to University College Cork to explore selfhood, non-self, and space across Western and Asian philosophical traditions.</p>
         <ApplicationForm enabled={enabled} />
         <Link href="/#programme" className={`${styles.button} ${styles.darkButton}`}>Explore the Summer School <span aria-hidden="true">→</span></Link>
