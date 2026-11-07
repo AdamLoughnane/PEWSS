@@ -131,11 +131,18 @@ export default async function AdminPage({
                   </tr>
                 </thead>
                 <tbody>
-                  {applicants.map((a) => (
+                  {applicants.map((a, index) => (
                     <tr key={a.id}>
                       <td>
-                        <Link href={`/admin/${a.id}`}>{a.name}</Link>
-                        <small>{a.email}</small>
+                        <div className={styles.applicantEntry}>
+                          <span className={styles.applicantNumber}>
+                            {String((page - 1) * 50 + index + 1).padStart(2, "0")}
+                          </span>
+                          <div>
+                            <Link href={`/admin/${a.id}`}>{a.name}</Link>
+                            <small>{a.email}</small>
+                          </div>
+                        </div>
                       </td>
                       <td>
                         {a.institution || "Not provided"}
