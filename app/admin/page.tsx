@@ -91,7 +91,7 @@ export default async function AdminPage({
               ),
             )}
           </div>
-          <form className={styles.filters}>
+          <form key={JSON.stringify([q, status])} className={styles.filters}>
             <label>
               Search applicants
               <input
