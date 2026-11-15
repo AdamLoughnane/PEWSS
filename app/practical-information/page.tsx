@@ -92,7 +92,7 @@ export default function PracticalInformationPage() {
 
         <section id="contact" className={styles.contact} aria-labelledby="contact-title">
           <p className={shared.eyebrow}>Planning your visit</p><h2 id="contact-title">A practical question?</h2>
-          <p>Contact Adam Loughnane and the PEWSS organising team at <a href={contact}>adam.loughnane@ucc.ie</a>.</p>
+          <p>Contact the organizing team at <a href={contact}>adam.loughnane@ucc.ie</a>.</p>
           <Link href="/apply" className={`${shared.button} ${shared.goldButton}`}>Apply to PEWSS 2027 <span aria-hidden="true">→</span></Link>
         </section>
       </main>

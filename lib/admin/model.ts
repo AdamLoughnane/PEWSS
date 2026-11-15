@@ -47,8 +47,8 @@ export function decisionTemplate(name: string, outcome: DecisionKind) {
         : "Your PEWSS 2027 application — decision",
     body:
       outcome === "accepted"
-        ? `${introduction}\n\nWe are pleased to offer you a place at the Summer School, taking place at University College Cork from 26–29 May 2027.\n\nPlease reply to this email to let us know whether you would like to accept your place. We will share further practical information and next steps with you.\n\nWe look forward to welcoming you to Cork.\n\nBest wishes,\nAdam Loughnane\nPEWSS organising team`
-        : `${introduction}\n\nThank you for the time and thought you put into your application. We regret that we are unable to offer you a place at this year’s Summer School.\n\nWe appreciate your interest in PEWSS and wish you all the best with your work.\n\nBest wishes,\nAdam Loughnane\nPEWSS organising team`,
+        ? `${introduction}\n\nWe are pleased to offer you a place at the Summer School, taking place at University College Cork from 26–29 May 2027.\n\nPlease reply to this email to let us know whether you would like to accept your place. We will share further practical information and next steps with you.\n\nWe look forward to welcoming you to Cork.\n\nBest wishes,\nThe organizing team`
+        : `${introduction}\n\nThank you for the time and thought you put into your application. We regret that we are unable to offer you a place at this year’s Summer School.\n\nWe appreciate your interest in PEWSS and wish you all the best with your work.\n\nBest wishes,\nThe organizing team`,
   };
 }
 export function validDecision(

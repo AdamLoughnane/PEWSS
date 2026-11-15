@@ -230,6 +230,16 @@ test("email import preserves multiline responses and requires the original ackno
   assert.equal(parsed.email, application.email);
   assert.equal(parsed.researchInterests, application.researchInterests);
   assert.equal(parsed.institution, "");
+  assert.ok(!email.text.includes("Adam Loughnane"));
+  assert.ok(!email.html.includes("Adam Loughnane"));
+  const legacy = email.text.replace("to the organizing team for", "to Adam Loughnane for");
+  assert.equal(parseApplicationEmail(legacy).email, application.email);
+  assert.throws(() => parseApplicationEmail(email.text.replace("Acknowledged:", "Not acknowledged:")));
+  for (const outcome of ["accepted", "rejected"]) {
+    const draft = decisionTemplate("Example Applicant", outcome);
+    assert.ok(!draft.body.includes("Adam Loughnane"));
+    assert.ok(draft.body.endsWith("The organizing team"));
+  }
   assert.throws(() =>
     parseApplicationEmail(
       email.text.replace("Privacy acknowledgement", "Missing label"),

@@ -284,3 +284,8 @@ Lint, all 20 tests, and the webpack production build passed. The production depe
 The user approved a dedicated **Practical Information** page at `/practical-information`, labelled **Practical Info** in desktop/mobile navigation and the homepage footer. The confirmed participation fees are **€150 without ECTS credit** and **€250 for those seeking credit**. Both include **teaching, refreshments, meals, reception and excursions**. Accommodation/travel are separate. Information on **UCC-discounted student accommodation** is coming soon; **funding and bursaries** are to be announced.
 
 The page includes dates/venue, official UCC visitor and campus-map links, Cork Airport transport information, ECTS details, payment/cancellation information, accessibility/dietary contacts, invitation-letter enquiries and the organiser's email. Exact venue/arrival times, ECTS allocation and requirements, payment deadlines/refund terms, accommodation booking details and funding remain unconfirmed and are explicitly marked forthcoming. No prices, policies, deadlines or availability have been invented. The homepage's outdated fees-forthcoming text has been replaced, and the Apply page links to fees/inclusions before the form. Existing design, private admin and application handling are preserved.
+
+
+## Public contact attribution — 15 November 2026
+
+At the user's request, public contact copy and newly generated application/decision emails use **the organizing team**, without the organiser's personal name. The contact email remains unchanged. Historical email-import parsing still recognises the old acknowledgement text so earlier applications can be imported; private account identity and sent-decision audit records are preserved.

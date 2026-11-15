@@ -114,7 +114,7 @@ export function buildApplicationEmail(application: Application, from: string, re
     ["ORCID iD", application.orcid || "Not provided"],
     ["Interested in ECTS credit", application.ects],
     ["Profile photograph", application.photo ? "Attached; permission given for application use only" : "Not provided"],
-    ["Privacy acknowledgement", "Acknowledged: send this application to Adam Loughnane for application review and related contact"],
+    ["Privacy acknowledgement", "Acknowledged: send this application to the organizing team for application review and related contact"],
   ];
   return {
     from,

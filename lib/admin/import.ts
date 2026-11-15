@@ -47,9 +47,11 @@ export function parseApplicationEmail(text: string) {
   for (const key of ["institution", "website", "orcid"])
     if (result[key] === "Not provided") result[key] = "";
   if (
-    !result.privacyDescription.startsWith(
+    ![
+      "Acknowledged: send this application to the organizing team for application review and related contact",
+      // Recognise historical emails without changing their original consent record.
       "Acknowledged: send this application to Adam Loughnane for application review and related contact",
-    )
+    ].some((acknowledgement) => result.privacyDescription.startsWith(acknowledgement))
   )
     throw new Error("The original privacy acknowledgement is missing.");
   return result;
