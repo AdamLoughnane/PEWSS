@@ -163,6 +163,10 @@
 .loginOption .button { margin-top: auto; background: var(--stone); color: #535a53; cursor: not-allowed; }
 
 @media (min-width: 1001px) { .mobileNav { display: none; } }
+@media (min-width: 1101px) and (max-width: 1240px) {
+  .brandDescription { display: none; }
+  .desktopNav { gap: 18px; font-size: 10px; }
+}
 @media (max-width: 1100px) {
   .container { width: calc(100% - 72px); }
   .heroContent { width: calc(100% - 72px); }

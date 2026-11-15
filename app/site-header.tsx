@@ -9,6 +9,7 @@ const links = [
   ["2027: (non)Self and Space", "/#theme"],
   ["Programme", "/#programme"],
   ["Faculty", "/faculty"],
+  ["Practical Info", "/practical-information"],
 ] as const;
 
 export function SiteHeader({ light = false }: { light?: boolean }) {

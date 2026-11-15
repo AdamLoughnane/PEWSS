@@ -26,6 +26,7 @@ export default function ApplyPage() {
         <p className={styles.eyebrow}><span className={styles.themeName}>(non)Self and Space</span> · 26–29 May 2027</p>
         <h1>Join us at PEWSS 2027—apply today.</h1>
         <p>The inaugural Phenomenology East and West Summer School welcomes MA and PhD students, early-career researchers, and practitioners to University College Cork to explore selfhood, non-self, and space across Western and Asian philosophical traditions.</p>
+        <p>Participation costs €150 without ECTS credit or €250 for those seeking credit. <Link href="/practical-information" style={{ textDecoration: "underline", textUnderlineOffset: "4px" }}>See what’s included and plan your visit.</Link></p>
         <ApplicationForm enabled={enabled} stored={process.env.APPLICATION_STORAGE_ENABLED === "true"} />
         <Link href="/#programme" className={`${styles.button} ${styles.darkButton}`}>Explore the Summer School <span aria-hidden="true">→</span></Link>
       </main>
