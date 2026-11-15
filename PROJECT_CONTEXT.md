@@ -264,3 +264,14 @@ The earlier non-test-labelled application found in Resend was imported with its 
 Live anonymous checks returned 401 for photo, decision and import endpoints, and 403 for a cross-origin login request, all with private/no-store caching. Authenticated list, response review, private image loading, import, decision delivery and pending-status filtering were verified. Final review on 7 November found a stale dropdown after Reset; the filter form now remounts when the applied search/status changes so its controls track the displayed results.
 
 See `docs/admin-dashboard.md` for configuration, data flow and verification. The Next.js patch/minor update to 16.4.5 addresses production dependency audit findings. The dashboard uses Node-20-compatible pinned Supabase libraries. Lint and production build pass; 18 focused tests (including embedded Postgres permission and decision-state checks) pass. Unauthenticated HTTP checks cover redirects, private photo access, decision/import endpoints, same-origin checks and no-store cache headers.
+
+
+## Supabase to Neon migration — prepared 14–15 November 2026
+
+The user requested leaving Supabase after its free project paused, and approved Neon on its free plan. Neon project **PEWSS** (`twilight-mountain-71794522`) was created in AWS Frankfurt, with database `pewss` and production branch `br-curly-mode-bahfxf8v`. Samedif resources remain untouched.
+
+An initial private Supabase export contains two applications, one photograph and one sent synthetic-test decision. These were imported into Neon with exact PostgreSQL field-by-field equality, preserving IDs, timestamps, responses, photo, notification flags, statuses and decision audit/provider IDs. No applicant email was sent by the migration. Backups and migration credentials are gitignored and permission-restricted. The source remains intact.
+
+The local code now uses a restricted `pewss_app` PostgreSQL role and Better Auth hosted in the existing Next.js app. It preserves eight-digit emailed organiser login, disallows signup, pins the existing owner ID/email in code and a database constraint, and stores OTPs as keyed hashes. This keeps PEWSS independent of Supabase, including authentication. The UI, applicant numbering, application form and decision workflow are preserved.
+
+**Not yet cut over:** the live site still uses Supabase. Final source freeze/export, Vercel production secrets, deployment and live organiser sign-in are pending. Use `docs/admin-dashboard.md` for the exact cutover/rollback procedure; do not delete the Supabase source.

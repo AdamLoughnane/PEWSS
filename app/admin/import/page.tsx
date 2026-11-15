@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { administrator } from "../../../lib/admin/supabase";
+import { administrator } from "../../../lib/admin/server";
 import { ImportForm } from "./import-form";
 import styles from "../admin.module.css";
 export default async function ImportPage() {

@@ -2,9 +2,8 @@ import Link from "next/link";
 import {
   adminConfigured,
   administrator,
-  database,
-} from "../../lib/admin/supabase";
-import { summaryColumns } from "../../lib/admin/applications";
+} from "../../lib/admin/server";
+import { listApplicants } from "../../lib/admin/applications";
 import type { ApplicantSummary } from "../../lib/admin/model";
 import { AdminLogin, SignOut } from "./login-form";
 import styles from "./admin.module.css";
@@ -32,29 +31,13 @@ export default async function AdminPage({
     10000,
     Math.max(1, Number.parseInt(String(params.page ?? "1")) || 1),
   );
-  const db = database();
-  let query = db
-    .from("pewss_applications")
-    .select(summaryColumns, { count: "exact" })
-    .order("created_at", { ascending: false })
-    .order("id")
-    .range((page - 1) * 50, page * 50 - 1);
-  if (status) query = query.eq("status", status);
-  if (q)
-    query = query.or(
-      `name.ilike.%${q}%,email.ilike.%${q}%,institution.ilike.%${q}%`,
-    );
-  const [records, ...counts] = await Promise.all([
-    query,
-    ...["", "pending", "accepted", "rejected"].map((value) => {
-      const query = db
-        .from("pewss_applications")
-        .select("id", { count: "exact", head: true });
-      return value ? query.eq("status", value) : query;
-    }),
-  ]);
-  const failed = records.error || counts.some((item) => item.error);
-  const applicants = (records.data ?? []) as ApplicantSummary[];
+  let applicants: ApplicantSummary[] = [];
+  let count = 0;
+  let counts: number[] = [];
+  let failed = false;
+  try {
+    ({ applicants, count, counts } = await listApplicants(q, status, page));
+  } catch { failed = true; }
   const pageUrl = (p: number) =>
     `/admin?${new URLSearchParams({ q, status, page: String(p) })}`;
   return (
@@ -85,7 +68,7 @@ export default async function AdminPage({
             {["All applicants", "Awaiting review", "Accepted", "Rejected"].map(
               (label, i) => (
                 <div className={styles.stat} key={label}>
-                  <strong>{counts[i].count ?? 0}</strong>
+                  <strong>{counts[i] ?? 0}</strong>
                   <span>{label}</span>
                 </div>
               ),
@@ -191,9 +174,9 @@ export default async function AdminPage({
               <span />
             )}
             <span>
-              {records.count ?? 0} applications · Page {page}
+              {count} applications · Page {page}
             </span>
-            {page * 50 < (records.count ?? 0) ? (
+            {page * 50 < (count) ? (
               <Link href={pageUrl(page + 1)}>Next →</Link>
             ) : (
               <span />

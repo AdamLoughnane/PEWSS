@@ -2,7 +2,7 @@ import {
   administrator,
   privateJson,
   sameOrigin,
-} from "../../../../lib/admin/supabase";
+} from "../../../../lib/admin/server";
 import { applicationStore } from "../../../../lib/admin/applications";
 import { parseApplicationEmail } from "../../../../lib/admin/import";
 import { UUID } from "../../../../lib/admin/model";

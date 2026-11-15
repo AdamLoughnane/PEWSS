@@ -1,11 +1,11 @@
+import { query } from "../../../../../../lib/admin/database";
 import { randomUUID } from "node:crypto";
 import {
   administrator,
-  database,
   privateJson,
   sameOrigin,
   smallJson,
-} from "../../../../../../lib/admin/supabase";
+} from "../../../../../../lib/admin/server";
 import { UUID, validDecision } from "../../../../../../lib/admin/model";
 import { deliverDecision } from "../../../../../../lib/admin/delivery";
 export const runtime = "nodejs";
@@ -40,40 +40,21 @@ export async function POST(
       );
     if (!process.env.RESEND_API_KEY || !process.env.APPLICATION_FROM_EMAIL)
       return privateJson({ message: "Email delivery is not configured." }, 503);
-    const db = database();
     const lease = randomUUID();
     const result = await deliverDecision({
       apiKey: process.env.RESEND_API_KEY,
       send: fetch,
       async claim() {
-        const { data, error } = await db.rpc("pewss_claim_decision", {
-          p_application: id,
-          p_outcome: body.outcome,
-          p_subject: body.subject,
-          p_body: body.body,
-          p_sender: process.env.APPLICATION_FROM_EMAIL,
-          p_actor: user.id,
-          p_lease: lease,
-        });
-        if (error) throw new Error("Could not claim decision");
-        return data;
+        const { rows } = await query("select public.pewss_claim_decision($1,$2,$3,$4,$5,$6,$7) as result",
+          [id,body.outcome,body.subject,body.body,process.env.APPLICATION_FROM_EMAIL,user.id,lease]);
+        return rows[0].result;
       },
       async finish(decision, providerId) {
-        const { data, error } = await db.rpc("pewss_finish_decision", {
-          p_decision: decision.id,
-          p_lease: lease,
-          p_provider: providerId,
-        });
-        if (error || data !== true)
-          throw new Error("Could not confirm decision");
+        const { rows } = await query("select public.pewss_finish_decision($1,$2,$3) as ok", [decision.id,lease,providerId]);
+        if (rows[0]?.ok !== true) throw new Error("Could not confirm decision");
       },
       async uncertain(decision) {
-        await db
-          .from("pewss_decisions")
-          .update({ state: "uncertain", lease_until: new Date().toISOString() })
-          .eq("id", decision.id)
-          .eq("lease_id", lease)
-          .neq("state", "sent");
+        await query("update public.pewss_decisions set state='uncertain',lease_until=now() where id=$1 and lease_id=$2 and state<>'sent'", [decision.id,lease]);
       },
     });
     return privateJson(result, result.status);

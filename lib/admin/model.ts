@@ -28,14 +28,14 @@ export type ApplicantSummary = {
   notification_sent: boolean;
 };
 export function isAdministrator(
-  user: { id: string; email?: string; email_confirmed_at?: string } | null,
+  user: { id: string; email?: string; emailVerified?: boolean } | null,
   allowedId?: string,
 ) {
   return Boolean(
     allowedId &&
     user?.id === allowedId &&
     user?.email?.toLowerCase() === ADMIN_EMAIL &&
-    user.email_confirmed_at,
+    user.emailVerified,
   );
 }
 export function decisionTemplate(name: string, outcome: DecisionKind) {

@@ -40,14 +40,14 @@ test("only the confirmed organiser identity has administrator access", () => {
   const user = {
     id: actor,
     email: "adam.loughnane@ucc.ie",
-    email_confirmed_at: "2026-11-06",
+    emailVerified: true,
   };
   assert.equal(isAdministrator(user, actor), true);
   for (const candidate of [
     null,
     { ...user, id: lease },
     { ...user, email: "attacker@example.com" },
-    { ...user, email_confirmed_at: undefined },
+    { ...user, emailVerified: false },
   ])
     assert.equal(isAdministrator(candidate, actor), false);
   assert.equal(isAdministrator(user, undefined), false);
@@ -124,17 +124,20 @@ test("database blocks public access and serialises decisions with safe retry lim
   const db = new PGlite();
   try {
     await db.exec(
-      "create role anon; create role authenticated; create role service_role bypassrls;",
+      "create role anon; create role authenticated; create role pewss_app;",
     );
     await db.exec(
       await readFile(
         new URL(
-          "../supabase/migrations/202611060001_admin.sql",
+          "../database/migrations/001_applications.sql",
           import.meta.url,
         ),
         "utf8",
       ),
     );
+    for (const file of ["002_auth.sql", "003_access.sql"]) {
+      await db.exec(await readFile(new URL("../database/migrations/" + file, import.meta.url), "utf8"));
+    }
     await db.query(
       "insert into public.pewss_applications(id,reference,name,email,career_stage,country,responses,payload_hash) values($1,'test-reference','Test','applicant@example.com','PhD student','Ireland','{}','hash')",
       [id],
@@ -148,7 +151,8 @@ test("database blocks public access and serialises decisions with safe retry lim
       );
       await db.exec("reset role");
     }
-    await db.exec("set role service_role");
+    await db.exec("set role pewss_app");
+    await assert.rejects(db.query("insert into public.pewss_auth_user(id,name,email,\"emailVerified\") values('other','Other','other@example.com',true)"));
     const claim = async (outcome = "accepted", subject = "Subject") =>
       (
         await db.query(

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
-import { administrator } from "../../../lib/admin/supabase";
+import { administrator } from "../../../lib/admin/server";
 import { getApplicant } from "../../../lib/admin/applications";
 import { UUID } from "../../../lib/admin/model";
 import { SignOut } from "../login-form";

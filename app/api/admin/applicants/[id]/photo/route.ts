@@ -1,8 +1,8 @@
+import { query } from "../../../../../../lib/admin/database";
 import {
   administrator,
-  database,
   privateJson,
-} from "../../../../../../lib/admin/supabase";
+} from "../../../../../../lib/admin/server";
 import { UUID } from "../../../../../../lib/admin/model";
 export const runtime = "nodejs";
 export async function GET(
@@ -14,13 +14,8 @@ export async function GET(
       return privateJson({ message: "Sign in required." }, 401);
     const { id } = await params;
     if (!UUID.test(id)) return privateJson({ message: "Not found." }, 404);
-    const { data, error } = await database()
-      .from("pewss_applications")
-      .select("photo")
-      .eq("id", id)
-      .maybeSingle();
-    if (error) throw new Error("Could not load photograph");
-    const photo = data?.photo;
+    const { rows } = await query("select photo from public.pewss_applications where id=$1", [id]);
+    const photo = rows[0]?.photo;
     if (
       !photo ||
       !["image/png", "image/jpeg", "image/webp"].includes(photo.content_type)
