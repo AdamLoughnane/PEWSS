@@ -67,7 +67,7 @@ test("valid photo requires consent, keeps a safe attachment filename, and escape
   const result = await validateApplication(form);
   assert.equal(result.ok, true);
   const email = buildApplicationEmail(result.application, config.from, id);
-  assert.deepEqual(email.to, ["adam.loughnane@ucc.ie"]);
+  assert.deepEqual(email.to, ["info@pewss.org"]);
   assert.equal(email.reply_to, "applicant@example.com");
   assert.equal(email.attachments[0].filename, "profile-photo.png");
   assert.ok(email.html.includes("&lt;img")); assert.ok(!email.html.includes("<img"));
@@ -98,12 +98,12 @@ test("limits the actual request body even without a Content-Length header", asyn
   assert.equal((await handleApplicationRequest(large, config, neverDeliver)).status, 413);
 });
 
-test("successful delivery targets only Adam, includes all fields, and reuses the idempotency key", async () => {
+test("successful delivery targets only the PEWSS inbox, includes all fields, and reuses the idempotency key", async () => {
   const keys = [];
   const deliver = async (url, options) => {
     assert.equal(url, "https://api.resend.com/emails");
     const email = JSON.parse(options.body);
-    assert.deepEqual(email.to, ["adam.loughnane@ucc.ie"]);
+    assert.deepEqual(email.to, ["info@pewss.org"]);
     assert.equal(email.from, config.from); assert.equal(email.reply_to, "applicant@example.com");
     for (const value of ["Test Applicant", "PhD student", "Ireland", "Embodiment and place", "Not sure yet", "0000-0002-1825-0097"]) assert.ok(email.text.includes(value));
     keys.push(options.headers["Idempotency-Key"]);

@@ -289,3 +289,12 @@ The page includes dates/venue, official UCC visitor and campus-map links, Cork A
 ## Public contact attribution — 15 November 2026
 
 At the user's request, public contact copy and newly generated application/decision emails use **the organizing team**, without the organiser's personal name. The contact email remains unchanged. Historical email-import parsing still recognises the old acknowledgement text so earlier applications can be imported; private account identity and sent-decision audit records are preserved.
+
+
+## Handover to Claude and contact email — 25 November 2026
+
+Development moved from ChatGPT/Codex to Claude. ChatGPT's handover report is saved at `docs/HANDOVER-chatgpt-2026-11-25.md` as background; it predates the Neon migration and the email setup, so this file and the code take precedence. `AGENTS.md` now has a PEWSS section pointing here.
+
+`info@pewss.org` is live on Purelymail (DNS records added in the `pewss.org` Cloudflare zone on 25 Nov; Resend's `mail.pewss.org` records are separate and unaffected). At the user's request it replaces `adam.loughnane@ucc.ie` as the public contact, the application-notification recipient, and the Reply-To on decision emails. **Administrator login stays restricted to `adam.loughnane@ucc.ie`** (user's decision), so `ADMIN_EMAIL`, the auth constraint and the stored user are unchanged. Lint, all 20 tests and a production build passed.
+
+Agreed next steps: show the 1 February 2027 application deadline on the site (it matches the poster and social posts); take a `pg_dump` backup of Neon, after which the user will delete the old Supabase project himself.

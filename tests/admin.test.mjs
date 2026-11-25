@@ -73,7 +73,7 @@ test("saved recipient and immutable idempotency key are used for decisions", asy
       assert.equal(options.headers["Idempotency-Key"], `pewss-decision/${id}`);
       const payload = JSON.parse(options.body);
       assert.deepEqual(payload.to, ["applicant@example.com"]);
-      assert.equal(payload.reply_to, "adam.loughnane@ucc.ie");
+      assert.equal(payload.reply_to, "info@pewss.org");
       return Response.json({ id: "resend-test" });
     },
     finish: async (d, p) => {

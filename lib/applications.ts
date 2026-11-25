@@ -1,4 +1,5 @@
-export const APPLICATION_RECIPIENT = "adam.loughnane@ucc.ie";
+export const CONTACT_EMAIL = "info@pewss.org";
+export const APPLICATION_RECIPIENT = CONTACT_EMAIL;
 export const MAX_PHOTO_BYTES = 2 * 1024 * 1024;
 export const MAX_REQUEST_BYTES = MAX_PHOTO_BYTES + 128 * 1024;
 
@@ -188,7 +189,7 @@ export async function handleApplicationRequest(request: Request, config: Deliver
       const saved = await store.save(validated.application, reference);
       if (saved.notified) return json({ ok: true, reference }, 200);
     } catch {
-      return json({ message: "We could not save your application. Your entries are still here. Please try again, or contact adam.loughnane@ucc.ie." }, 503);
+      return json({ message: `We could not save your application. Your entries are still here. Please try again, or contact ${CONTACT_EMAIL}.` }, 503);
     }
   }
   try {
@@ -206,6 +207,6 @@ export async function handleApplicationRequest(request: Request, config: Deliver
     // A durable record is a successful submission even if the organiser notification fails.
     if (store) return json({ ok: true, reference }, 200);
     // Never expose credentials, provider responses, or applicant data in logs/errors.
-    return json({ message: "We could not confirm that your application was sent. Your entries are still here. Please try again, or contact adam.loughnane@ucc.ie." }, 502);
+    return json({ message: `We could not confirm that your application was sent. Your entries are still here. Please try again, or contact ${CONTACT_EMAIL}.` }, 502);
   }
 }

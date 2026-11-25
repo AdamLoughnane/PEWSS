@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { careerStages, creditChoices, MAX_PHOTO_BYTES, textFields, type FieldErrors, type TextField } from "../../lib/applications";
+import { CONTACT_EMAIL, careerStages, creditChoices, MAX_PHOTO_BYTES, textFields, type FieldErrors, type TextField } from "../../lib/applications";
 import styles from "./application-form.module.css";
 import siteStyles from "../home.module.css";
 
@@ -67,7 +67,7 @@ export function ApplicationForm({ enabled, stored = false }: { enabled: boolean;
         setReference(result.reference);
       }
     } catch {
-      setMessage("We could not confirm that your application was sent. Your entries are still here. Please check your connection and try again, or contact adam.loughnane@ucc.ie.");
+      setMessage(`We could not confirm that your application was sent. Your entries are still here. Please check your connection and try again, or contact ${CONTACT_EMAIL}.`);
     } finally {
       submitting.current = false;
       setPending(false);
@@ -108,7 +108,7 @@ export function ApplicationForm({ enabled, stored = false }: { enabled: boolean;
       {!enabled && <div className={styles.notice}><strong>Applications opening soon</strong><p>You can review the application questions below. Submissions are not being accepted yet.</p></div>}
       <p className={styles.guidance}>Fields are required unless marked optional. No account is needed.</p>
       {message && <div className={styles.errorSummary} role="alert" ref={feedback} tabIndex={-1}><p>{message}</p>{Object.keys(errors).length > 0 && <ul>{Object.entries(errors).map(([name, error]) => <li key={name}><a href={`#${name}`}>{error}</a></li>)}</ul>}</div>}
-      <noscript><p className={styles.notice}>Please enable JavaScript to submit this form, or contact <a href="mailto:adam.loughnane@ucc.ie">adam.loughnane@ucc.ie</a>.</p></noscript>
+      <noscript><p className={styles.notice}>Please enable JavaScript to submit this form, or contact <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p></noscript>
       <fieldset disabled={pending} className={styles.group}>
         <legend><span>01</span> About you</legend>
         <div className={styles.grid}>

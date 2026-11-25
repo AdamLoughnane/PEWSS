@@ -1,6 +1,6 @@
 # Application email setup
 
-The application form at `/apply` sends submissions to **adam.loughnane@ucc.ie** through Resend. The recipient is fixed on the server; the applicant's email address becomes Reply-To. An optional JPEG, PNG, or WebP photograph (maximum 2 MB) is attached after file-type, size, and consent checks.
+The application form at `/apply` sends submissions to **info@pewss.org** (changed from adam.loughnane@ucc.ie on 25 Nov 2026) through Resend. The recipient is fixed on the server; the applicant's email address becomes Reply-To. An optional JPEG, PNG, or WebP photograph (maximum 2 MB) is attached after file-type, size, and consent checks.
 
 ## Project isolation
 

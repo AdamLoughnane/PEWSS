@@ -1,3 +1,5 @@
+// Public contact address; keep in step with CONTACT_EMAIL in lib/applications.ts.
+export const CONTACT_EMAIL = "info@pewss.org";
 export const ADMIN_EMAIL = "adam.loughnane@ucc.ie";
 export const UUID =
   /^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
@@ -74,7 +76,7 @@ export function decisionEmail(
   return {
     from: decision.sender,
     to: [decision.recipient],
-    reply_to: ADMIN_EMAIL,
+    reply_to: CONTACT_EMAIL,
     subject: decision.subject,
     text: decision.body,
   };
