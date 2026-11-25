@@ -298,3 +298,10 @@ Development moved from ChatGPT/Codex to Claude. ChatGPT's handover report is sav
 `info@pewss.org` is live on Purelymail (DNS records added in the `pewss.org` Cloudflare zone on 25 Nov; Resend's `mail.pewss.org` records are separate and unaffected). At the user's request it replaces `adam.loughnane@ucc.ie` as the public contact, the application-notification recipient, and the Reply-To on decision emails. **Administrator login stays restricted to `adam.loughnane@ucc.ie`** (user's decision), so `ADMIN_EMAIL`, the auth constraint and the stored user are unchanged. Lint, all 20 tests and a production build passed.
 
 The homepage now states **the application deadline is 1 February 2027**, and `/apply` shows **Applications close on 1 February 2027.** under its heading (user-confirmed; matches the poster and social posts). The essay-prize and payment deadlines remain unannounced. Agreed next step: take a `pg_dump` backup of Neon, after which the user will delete the old Supabase project himself.
+
+
+## Passkey sign-in for /admin — 25 November 2026
+
+At the user's request, `/admin` now supports **passkey sign-in** (Touch ID / device screen lock), using `@better-auth/passkey` 1.7.25 and `@simplewebauthn/browser` 13.3.0 (pinned). The emailed eight-digit code remains as a fallback; admin identity is still restricted to `adam.loughnane@ucc.ie`. Adding a passkey requires a sign-in less than 15 minutes old. New table `pewss_auth_passkey` (`database/migrations/004_passkey.sql`) has the same RLS/grant pattern as the other login tables. See `docs/admin-dashboard.md`.
+
+Verified before deployment: lint, type-check, 22 tests (including the migration in PGlite and new passkey tests), production build, dependency audit clean; the migration also ran on a real local Postgres; and a full browser run with Chromium's virtual authenticator against the restricted `pewss_app` role (set up passkey → sign out → sign in with passkey) succeeded. Anonymous, cross-origin, forged, malformed and stale-session (>15 min) registration requests were all refused.

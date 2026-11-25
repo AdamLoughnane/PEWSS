@@ -1,7 +1,27 @@
 "use client";
-import { useState, type FormEvent } from "react";
+import { useState, useSyncExternalStore, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { browserSupportsWebAuthn, startAuthentication, startRegistration } from "@simplewebauthn/browser";
 import styles from "./admin.module.css";
+async function authPost(body: object) {
+  const response = await fetch("/api/admin/auth", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message ?? "Please try again.");
+  return data;
+}
+function passkeyError(error: unknown) {
+  if (error instanceof Error && error.name === "NotAllowedError") return "The passkey request was cancelled or timed out.";
+  return error instanceof Error && error.message ? error.message : "Please try again.";
+}
+const noSubscription = () => () => {};
+// False during server rendering; checked in the browser after hydration.
+function usePasskeySupport() {
+  return useSyncExternalStore(noSubscription, browserSupportsWebAuthn, () => false);
+}
 export function AdminLogin({ configured }: { configured: boolean }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -9,6 +29,22 @@ export function AdminLogin({ configured }: { configured: boolean }) {
   const [sent, setSent] = useState(false);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
+  const passkeySupported = usePasskeySupport();
+  async function passkeySignIn() {
+    setPending(true);
+    setMessage("");
+    try {
+      const { options } = await authPost({ action: "passkey-login-options" });
+      const response = await startAuthentication({ optionsJSON: options });
+      await authPost({ action: "passkey-login-verify", response });
+      router.replace("/admin");
+      router.refresh();
+    } catch (error) {
+      setMessage(passkeyError(error));
+    } finally {
+      setPending(false);
+    }
+  }
   async function send(action: "request" | "verify") {
     setPending(true);
     setMessage("");
@@ -45,14 +81,30 @@ export function AdminLogin({ configured }: { configured: boolean }) {
       <p className={styles.subtitle}>PEWSS 2027</p>
       <h1 className={styles.title}>Administrator sign-in</h1>
       <p className={styles.subtitle}>
-        Access is restricted to the organiser. Sign in using a one-time code
-        sent to your authorised email address.
+        Access is restricted to the organiser. Sign in with your passkey, or
+        with a one-time code sent to your authorised email address.
       </p>
       {!configured && (
         <p className={styles.notice}>
           The private dashboard is being configured. Sign-in will be available
           once setup is complete.
         </p>
+      )}
+      {configured && passkeySupported && (
+        <div className={styles.panel}>
+          <button
+            type="button"
+            className={`${styles.button} ${styles.primary}`}
+            disabled={pending}
+            onClick={() => void passkeySignIn()}
+          >
+            Sign in with passkey
+          </button>
+          <p className={styles.subtitle}>
+            Uses Touch ID or your device’s screen lock. If you have not set up a
+            passkey yet, use an emailed code below.
+          </p>
+        </div>
       )}
       <form onSubmit={submit} className={styles.panel}>
         <div className={styles.field}>
@@ -88,7 +140,7 @@ export function AdminLogin({ configured }: { configured: boolean }) {
           </p>
         )}
         <button
-          className={`${styles.button} ${styles.primary}`}
+          className={passkeySupported ? styles.button : `${styles.button} ${styles.primary}`}
           disabled={pending || !configured}
         >
           {pending
@@ -153,6 +205,40 @@ export function SignOut() {
         {pending ? "Signing out…" : "Sign out"}
       </button>
       {error && <p role="alert">{error}</p>}
+    </div>
+  );
+}
+
+export function PasskeySetup({ existing }: { existing: number }) {
+  const router = useRouter();
+  const supported = usePasskeySupport();
+  const [pending, setPending] = useState(false);
+  const [message, setMessage] = useState("");
+  if (!supported) return null;
+  return (
+    <div>
+      <button
+        className={styles.button}
+        disabled={pending}
+        onClick={async () => {
+          setPending(true);
+          setMessage("");
+          try {
+            const { options } = await authPost({ action: "passkey-register-options" });
+            const response = await startRegistration({ optionsJSON: options });
+            await authPost({ action: "passkey-register-verify", response });
+            setMessage("Passkey saved. Next time, choose “Sign in with passkey”.");
+            router.refresh();
+          } catch (error) {
+            setMessage(passkeyError(error));
+          } finally {
+            setPending(false);
+          }
+        }}
+      >
+        {pending ? "Waiting for passkey…" : existing > 0 ? "Add passkey on another device" : "Set up passkey"}
+      </button>
+      {message && <p role="status" className={styles.subtitle}>{message}</p>}
     </div>
   );
 }

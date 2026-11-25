@@ -1,6 +1,15 @@
 # PEWSS administrator dashboard
 
-`/admin` is restricted to the verified organiser email `adam.loughnane@ucc.ie` and the preserved ID `08e4779b-748b-43f3-b83e-9c1df4ef2b5a`. Applicants have no accounts. Better Auth runs in the existing Next.js server, with private PostgreSQL tables on Neon. The custom endpoint accepts only organiser email-code login and logout; there is no public signup or catch-all authentication handler. A database constraint also prevents adding other users. Eight-digit codes expire after ten minutes, are stored as keyed hashes, and allow at most five guesses. Sessions last seven days, use Secure/HttpOnly/SameSite cookies, and are checked in the database on every protected request.
+`/admin` is restricted to the verified organiser email `adam.loughnane@ucc.ie` and the preserved ID `08e4779b-748b-43f3-b83e-9c1df4ef2b5a`. Applicants have no accounts. Better Auth runs in the existing Next.js server, with private PostgreSQL tables on Neon. The custom endpoint accepts only organiser passkey login, email-code login and logout; there is no public signup or catch-all authentication handler. A database constraint also prevents adding other users. Eight-digit codes expire after ten minutes, are stored as keyed hashes, and allow at most five guesses. Sessions last seven days, use Secure/HttpOnly/SameSite cookies, and are checked in the database on every protected request.
+
+## Passkeys (added 25 November 2026)
+
+The organiser can sign in with a passkey (Touch ID or a device screen lock) via `@better-auth/passkey` 1.7.25, with the emailed code kept as a fallback. Passkeys are stored in `pewss_auth_passkey` (migration `004_passkey.sql`), can only belong to the single allowed user, and require user verification every time. The relying party is the host of `BETTER_AUTH_URL` (`pewss.org` in production).
+
+- **Adding a passkey** needs a signed-in session less than 15 minutes old (`session.freshAge`). On the dashboard: **Set up passkey**, or **Add passkey on another device** once one exists.
+- **Signing in** uses the same `/api/admin/auth` endpoint (`passkey-login-options`, `passkey-login-verify`), rate-limited to 20 attempts per IP per 10 minutes. Session cookies are set only after the verified user passes `isAdministrator`.
+- **Removing a lost device's passkey:** there is no UI yet. As the owner, run `delete from public.pewss_auth_passkey where id = '…';` in the Neon SQL editor.
+- The dashboard hides the passkey button if the table does not exist, so code can deploy before or after the migration.
 
 ## Dedicated infrastructure
 

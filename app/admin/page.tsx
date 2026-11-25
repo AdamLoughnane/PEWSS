@@ -4,8 +4,9 @@ import {
   administrator,
 } from "../../lib/admin/server";
 import { listApplicants } from "../../lib/admin/applications";
+import { query } from "../../lib/admin/database";
 import type { ApplicantSummary } from "../../lib/admin/model";
-import { AdminLogin, SignOut } from "./login-form";
+import { AdminLogin, PasskeySetup, SignOut } from "./login-form";
 import styles from "./admin.module.css";
 export default async function AdminPage({
   searchParams,
@@ -38,6 +39,11 @@ export default async function AdminPage({
   try {
     ({ applicants, count, counts } = await listApplicants(q, status, page));
   } catch { failed = true; }
+  // Hidden until the passkey table exists in the database.
+  let passkeys: number | null = null;
+  try {
+    passkeys = (await query<{ n: number }>("select count(*)::int as n from public.pewss_auth_passkey")).rows[0]?.n ?? 0;
+  } catch { passkeys = null; }
   const pageUrl = (p: number) =>
     `/admin?${new URLSearchParams({ q, status, page: String(p) })}`;
   return (
@@ -54,6 +60,7 @@ export default async function AdminPage({
           <Link href="/admin/import" className={styles.button}>
             Import earlier application
           </Link>
+          {passkeys !== null && <PasskeySetup existing={passkeys} />}
           <SignOut />
         </div>
       </div>

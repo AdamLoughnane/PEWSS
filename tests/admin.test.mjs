@@ -135,7 +135,7 @@ test("database blocks public access and serialises decisions with safe retry lim
         "utf8",
       ),
     );
-    for (const file of ["002_auth.sql", "003_access.sql"]) {
+    for (const file of ["002_auth.sql", "003_access.sql", "004_passkey.sql"]) {
       await db.exec(await readFile(new URL("../database/migrations/" + file, import.meta.url), "utf8"));
     }
     await db.query(
@@ -149,10 +149,15 @@ test("database blocks public access and serialises decisions with safe retry lim
       await assert.rejects(
         db.query("select public.pewss_auth_limit('test',60,1)"),
       );
+      await assert.rejects(db.query("select * from public.pewss_auth_passkey"));
       await db.exec("reset role");
     }
     await db.exec("set role pewss_app");
     await assert.rejects(db.query("insert into public.pewss_auth_user(id,name,email,\"emailVerified\") values('other','Other','other@example.com',true)"));
+    const passkeyRow = "insert into public.pewss_auth_passkey(id,\"publicKey\",\"userId\",\"credentialID\",counter,\"deviceType\",\"backedUp\") values($1,'key',$2,$3,0,'multiDevice',true)";
+    await db.query(passkeyRow, ["pk1", "08e4779b-748b-43f3-b83e-9c1df4ef2b5a", "cred-1"]);
+    await assert.rejects(db.query(passkeyRow, ["pk2", "someone-else", "cred-2"]));
+    await assert.rejects(db.query(passkeyRow, ["pk3", "08e4779b-748b-43f3-b83e-9c1df4ef2b5a", "cred-1"]));
     const claim = async (outcome = "accepted", subject = "Subject") =>
       (
         await db.query(
