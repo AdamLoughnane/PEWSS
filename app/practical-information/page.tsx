@@ -97,7 +97,7 @@ export default function PracticalInformationPage() {
           <Link href="/apply" className={`${shared.button} ${shared.goldButton}`}>Apply to PEWSS 2027 <span aria-hidden="true">→</span></Link>
         </section>
       </main>
-      <footer className={shared.footer}><div className={shared.container}><Link href="/" className={shared.footerBrand}>PEWSS<span>Phenomenology East and West Summer School</span></Link><nav aria-label="Footer"><Link href="/#programme">Programme</Link><Link href="/faculty">Faculty</Link><Link href="/apply">Apply</Link><a href="#practical-information">Back to top ↑</a></nav><p>University College Cork, Ireland · 26–29 May 2027</p></div></footer>
+      <footer className={shared.footer}><div className={shared.container}><Link href="/" className={shared.footerBrand}>PEWSS<span>Phenomenology East and West Summer School</span></Link><nav aria-label="Footer"><Link href="/#programme">Programme</Link><Link href="/faculty">Faculty</Link><Link href="/apply">Apply</Link><Link href="/privacy">Privacy</Link><a href="#practical-information">Back to top ↑</a></nav><p>University College Cork, Ireland · 26–29 May 2027</p></div></footer>
     </div>
   );
 }

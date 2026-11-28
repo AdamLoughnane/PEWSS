@@ -1,0 +1,12 @@
+.notice h2 {
+  margin-block: 38px 14px;
+  font-family: var(--serif);
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.notice p a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}

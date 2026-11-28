@@ -24,7 +24,7 @@ export function SiteHeader({ light = false }: { light?: boolean }) {
       }
     }}>
       <Link href="/" className={styles.brand} aria-label="PEWSS home"><span>PEWSS</span><span className={styles.brandDescription}>Phenomenology<br />East and West<br />Summer School</span></Link>
-      <nav className={styles.desktopNav} aria-label="Main navigation">{links.map(([label, href]) => <a href={href} key={href}>{label}</a>)}</nav>
+      <nav className={styles.desktopNav} aria-label="Main navigation">{links.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}</nav>
       <div className={styles.headerActions}>
         <Link href="/apply" className={`${styles.button} ${styles.goldButton} ${styles.headerApply}`}>
           Apply <span aria-hidden="true">↗</span>
@@ -37,7 +37,7 @@ export function SiteHeader({ light = false }: { light?: boolean }) {
           <span aria-hidden="true">{menuOpen ? "×" : "+"}</span>
         </button>
       </div>
-      <nav id="mobile-navigation" className={styles.mobileNav} aria-label="Mobile navigation" hidden={!menuOpen}>{links.map(([label, href]) => <a href={href} key={href} onClick={() => setMenuOpen(false)}>{label}<span aria-hidden="true">↗</span></a>)}</nav>
+      <nav id="mobile-navigation" className={styles.mobileNav} aria-label="Mobile navigation" hidden={!menuOpen}>{links.map(([label, href]) => <Link href={href} key={href} onClick={() => setMenuOpen(false)}>{label}<span aria-hidden="true">↗</span></Link>)}</nav>
     </header>
   );
 }

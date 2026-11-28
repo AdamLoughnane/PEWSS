@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { CONTACT_EMAIL, careerStages, creditChoices, MAX_PHOTO_BYTES, textFields, type FieldErrors, type TextField } from "../../lib/applications";
 import styles from "./application-form.module.css";
 import siteStyles from "../home.module.css";
+import { trackPublicAction } from "../../lib/analytics-client";
 
 export function ApplicationForm({ enabled, stored = false }: { enabled: boolean; stored?: boolean }) {
   const [pending, setPending] = useState(false);
@@ -17,6 +18,7 @@ export function ApplicationForm({ enabled, stored = false }: { enabled: boolean;
   const [counts, setCounts] = useState<Record<string, number>>({});
   const submissionId = useRef<string | null>(null);
   const submitting = useRef(false);
+  const started = useRef(false);
   const feedback = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -41,9 +43,16 @@ export function ApplicationForm({ enabled, stored = false }: { enabled: boolean;
     photoInput.current?.focus();
   }
 
+  function markStarted() {
+    if (!enabled || started.current) return;
+    started.current = true;
+    trackPublicAction("Application started", "form");
+  }
+
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!enabled || submitting.current) return;
+    markStarted();
     const form = new FormData(event.currentTarget);
     const photo = form.get("photo");
     if (photo instanceof File && photo.size > MAX_PHOTO_BYTES) {
@@ -65,6 +74,7 @@ export function ApplicationForm({ enabled, stored = false }: { enabled: boolean;
         setMessage(result.message ?? "Your application could not be sent. Please try again.");
       } else {
         setReference(result.reference);
+        trackPublicAction("Application submitted", "form");
       }
     } catch {
       setMessage(`We could not confirm that your application was sent. Your entries are still here. Please check your connection and try again, or contact ${CONTACT_EMAIL}.`);
@@ -104,7 +114,10 @@ export function ApplicationForm({ enabled, stored = false }: { enabled: boolean;
   );
 
   return (
-    <form className={styles.form} action="/api/applications" method="post" encType="multipart/form-data" onSubmit={submit} onChange={() => { if (!pending) submissionId.current = null; }}>
+    <form className={styles.form} action="/api/applications" method="post" encType="multipart/form-data" onSubmit={submit} onChange={(event) => {
+      if (!pending) submissionId.current = null;
+      if (event.target instanceof HTMLElement && event.target.id !== "companyWebsite") markStarted();
+    }}>
       {!enabled && <div className={styles.notice}><strong>Applications opening soon</strong><p>You can review the application questions below. Submissions are not being accepted yet.</p></div>}
       <p className={styles.guidance}>Fields are required unless marked optional. No account is needed.</p>
       {message && <div className={styles.errorSummary} role="alert" ref={feedback} tabIndex={-1}><p>{message}</p>{Object.keys(errors).length > 0 && <ul>{Object.entries(errors).map(([name, error]) => <li key={name}><a href={`#${name}`}>{error}</a></li>)}</ul>}</div>}
@@ -151,6 +164,7 @@ export function ApplicationForm({ enabled, stored = false }: { enabled: boolean;
           <p>Your information and any photograph will be emailed to the PEWSS organising team to review your application and contact you about the Summer School.</p>
           {stored && <p>A copy is also stored securely in the organising team’s private application dashboard.</p>}
           <p>Submitting this form does not create a public profile or add you to a mailing list.</p>
+          <p>We count application starts and successful submissions to understand how the website is used. Your answers and photograph are not included in analytics. <Link href="/privacy">Website privacy information</Link>.</p>
         </div>
         <div className={styles.field}><label className={styles.checkbox} htmlFor="privacyAcknowledgement"><input type="checkbox" id="privacyAcknowledgement" name="privacyAcknowledgement" value="yes" required aria-invalid={Boolean(errors.privacyAcknowledgement)} aria-describedby={errors.privacyAcknowledgement ? "privacyAcknowledgement-error" : undefined} /><span>I understand that my information will be sent to the organising team and used to review my application and contact me about the Summer School.</span></label>{errors.privacyAcknowledgement && <p id="privacyAcknowledgement-error" className={styles.error}>{errors.privacyAcknowledgement}</p>}</div>
         <div className={styles.trap} aria-hidden="true"><label htmlFor="companyWebsite">Leave this field empty</label><input id="companyWebsite" name="companyWebsite" type="text" tabIndex={-1} autoComplete="off" /></div>
