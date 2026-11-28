@@ -2,7 +2,7 @@
 
 ## Dashboard and setup
 
-Open [PEWSS → Analytics](https://vercel.com/samedifs-projects/pewss/analytics). Enable **Web Analytics** for this project if it is not already enabled, and deploy after enablement so Vercel serves its analytics endpoints. Use the existing Pro plan; do not enable the team-wide Analytics Plus add-on or change Samedif.
+Open [PEWSS → Analytics](https://vercel.com/samedifs-projects/pewss/analytics). **Web Analytics is enabled and receiving production data**, verified on 28 November 2026. It uses the included Pro option with two custom-event properties; the team-wide Analytics Plus add-on was not enabled and Samedif was not changed.
 
 Vercel reports estimated visitors, page views, referring websites, countries, devices and browsers. Choose a date range in the dashboard. Country comes from the request's approximate network location, not GPS; VPNs and mobile networks can affect it. Data begins after activation, with no reconstruction of earlier clicks.
 
@@ -16,7 +16,7 @@ Use the corresponding URL in each social account's biography, post or link:
 
 These tags work even when an app hides its referrer. An untagged recognised Instagram, Bluesky or Facebook referrer is also classified. Otherwise traffic is `other` (another referring website) or `direct_or_unknown` (no usable external referrer). A copied tagged link keeps its original label, so this measures the link used rather than proving which app a person was using.
 
-Pro's built-in UTM dashboard requires the separate Plus add-on. This implementation instead reports social attribution through custom event properties, within Pro's two-property limit. Open **Visit source** in Events and inspect `source`; `method` distinguishes `tagged_link`, `referrer` and `unavailable`. Other events also carry `source`, so application actions can be compared by social source.
+Pro's built-in UTM dashboard requires the separate Plus add-on. This implementation instead reports social attribution through custom event properties, within Pro's two-property limit. In **Events**, hover over **Visit source**, click its **Filter** button, then select **source**. The `method` property distinguishes `tagged_link`, `referrer` and `unavailable`. Other events also carry `source`, so application actions can be compared by social source. Use **Clear** above the chart to return to the overall view.
 
 ## Events
 
