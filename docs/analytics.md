@@ -18,7 +18,19 @@ These tags work even when an app hides its referrer. An untagged recognised Inst
 
 Pro's built-in UTM dashboard requires the separate Plus add-on. This implementation instead reports social attribution through custom event properties, within Pro's two-property limit. In **Events**, hover over **Visit source**, click its **Filter** button, then select **source**. The `method` property distinguishes `tagged_link`, `referrer` and `unavailable`. Other events also carry `source`, so application actions can be compared by social source. Use **Clear** above the chart to return to the overall view.
 
-## Events
+## Poster QR code
+
+Use this destination for new poster QR codes:
+
+`https://pewss.org/apply?utm_source=poster_qr&utm_medium=qr&utm_campaign=pewss2027`
+
+The QR code in `UCC_Poster_Color_A2_3mm_bleed FINAL.pdf` was decoded on 28 November 2026 and contains only `https://pewss.org/apply`. Existing copies cannot identify scans separately from other direct visits. Replace the QR artwork for future distribution; the original PDF has not been altered. Validated replacement assets are in `output/qr/pewss-2027-poster-qr.png` and `.svg` (local deliverables, not part of the deployed website). Preserve the white quiet zone when placing the QR code.
+
+The tagged link records `Visit source` with `source=poster_qr`, and retains that source for subsequent application actions through internal navigation. In Vercel, filter **Visit source → source → poster_qr**. The private dashboard adds **Poster QR visitors** (Vercel's estimated visitors) and **Poster QR arrivals** (event count including repeat arrivals), plus a **Poster QR code** row under **Traffic sources**. Counts follow the selected date range. An unavailable report displays a dash, not zero.
+
+This measures website arrivals through the labelled link, not camera scans that never open the site. Shared copies of the tagged link also count; old untagged visits cannot be attributed retrospectively. Dashboard figures remain unavailable until its pending PEWSS-only token connection is complete. No extra event, API request, cookie, database field or third-party QR service is required.
+
+## Tracked events
 
 | Event | Meaning | Properties |
 | --- | --- | --- |
@@ -37,7 +49,7 @@ Source attribution is held only in JavaScript memory. Next.js internal navigatio
 ## Privacy and maintenance
 
 - Only /, /apply, /faculty, /practical-information and /privacy are allowed. Private /admin routes, API routes and /login are excluded, including navigation from a public page.
-- Page URL queries and fragments are removed before sending. Only the three recognised social-source labels are extracted; arbitrary tag values are never forwarded as custom data.
+- Page URL queries and fragments are removed before sending. Only the recognised social-source and poster QR labels are extracted; arbitrary tag values are never forwarded as custom data.
 - No application answers, photos, emails, reference numbers or administrator IDs are added to events. No identity/identify calls, tracking cookies, browser-storage attribution, heatmaps or session recordings are used.
 - The public /privacy page and application-form notice explain the setup. Vercel estimates visitors using its daily-changing identifier.
 - See `lib/analytics-policy.ts`, `lib/analytics-client.ts` and `app/public-analytics.tsx`. New public routes must be explicitly added to the allowlist to be measured.
@@ -55,4 +67,4 @@ Visitor/page-view totals come from the count endpoint rather than summed daily o
 
 Use a **project-scoped PEWSS token only**. The Scope selector first shows the hosting team; selecting that team opens a second list containing All Projects, pewss and samedif. Select **pewss**, never All Projects or Full Account. The earlier conclusion that only team-wide scope was available was incorrect. Vercel's [access-token documentation](https://vercel.com/docs/accounts/access-tokens) states that a project token denies requests to other projects and team/user-level resources, and cannot mint other tokens. It can read/write PEWSS resources, so it is not an analytics-only credential, but it must never grant access to Samedif.
 
-On 28 November 2026, Adam authorised creation only with this isolation. A token named **PEWSS analytics dashboard**, scope **pewss**, expiry **28 November 2027**, was submitted for creation. Vercel requires the owner's passkey verification before issuing it. No token value has been issued or stored yet. After verification, confirm the project scope and save the token as a sensitive **Production-only** `VERCEL_ANALYTICS_TOKEN` variable in **pewss**, never in source, chat, preview variables or Samedif. Deploy and verify actual analytics responses against Vercel. Do not work around an API permission failure by widening the scope.
+On 28 November 2026, Adam authorised creation only with this isolation. Vercel now lists **PEWSS analytics dashboard**, scope **pewss**, expiry **28 November 2027**: creation and project scope are confirmed. Its one-time token value is no longer visible, and `VERCEL_ANALYTICS_TOKEN` is absent from PEWSS's environment-variable list. Asked whether Adam retained the value; do not request it in chat. Save it as a sensitive **Production-only** `VERCEL_ANALYTICS_TOKEN` variable in **pewss**, never in source, chat, preview variables or Samedif. If the value was not retained, a replacement PEWSS-only token is needed. Deploy and verify actual analytics responses against Vercel after connection. Do not work around an API permission failure by widening the scope.

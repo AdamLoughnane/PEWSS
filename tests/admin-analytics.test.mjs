@@ -26,7 +26,7 @@ function fixture(url) {
   const by = url.searchParams.get("by");
   if (!by) return { visitors: 8, pageviews: 20 };
   if (by === "day") return [{ timestamp: "2026-11-22T00:00:00Z", visitors: 5, pageviews: 10 }, { timestamp: "2026-11-23T00:00:00Z", visitors: 5, pageviews: 10 }];
-  if (by === "eventData/source") return [{ eventData: "instagram", visitors: 3, count: 4 }];
+  if (by === "eventData/source") return [{ eventData: "instagram", visitors: 3, count: 4 }, { eventData: "poster_qr", visitors: 2, count: 3 }];
   if (by === "eventName") return [{ eventName: "Application submitted", visitors: 2, count: 2 }];
   return [{ [by]: by === "country" ? "IE" : "Example", visitors: 8, pageviews: 20 }];
 }
@@ -50,6 +50,7 @@ test("reports preserve Vercel totals, query only PEWSS production, and keep cred
   assert.deepEqual(report.totals.data, { visitors: 8, pageviews: 20 }); // Not 10 from adding daily visitors.
   assert.equal(report.sources.data[0].label, "instagram");
   assert.equal(report.sources.data[0].total, 4);
+  assert.deepEqual(report.sources.data.find((row) => row.label === "poster_qr"), { label: "poster_qr", visitors: 2, total: 3 });
   assert.match(requests.find((url) => url.searchParams.get("by") === "eventData/source").searchParams.get("filter"), /eventName eq 'Visit source'/);
   assert.ok(!JSON.stringify(report).includes("private-test-token"));
 });

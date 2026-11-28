@@ -16,7 +16,7 @@ export function sanitiseAnalyticsUrl(value: string): string | null {
   }
 }
 
-export type TrafficSource = "instagram" | "bluesky" | "facebook" | "other" | "direct_or_unknown";
+export type TrafficSource = "instagram" | "bluesky" | "facebook" | "poster_qr" | "other" | "direct_or_unknown";
 export type Attribution = { source: TrafficSource; method: "tagged_link" | "referrer" | "unavailable" };
 
 function socialSource(host: string): TrafficSource | null {
@@ -33,7 +33,8 @@ export function trafficAttribution(href: string, referrer: string): Attribution 
     const tag = url.searchParams.get("utm_source")?.toLowerCase();
     // Accept known campaign labels only; arbitrary URL text could contain personal data.
     const tagged = tag === "instagram" || tag === "facebook" ? tag
-      : tag === "bluesky" || tag === "bsky" ? "bluesky" : null;
+      : tag === "bluesky" || tag === "bsky" ? "bluesky"
+      : tag === "poster_qr" ? "poster_qr" : null;
     if (tagged) return { source: tagged, method: "tagged_link" };
     if (referrer) {
       const from = new URL(referrer);

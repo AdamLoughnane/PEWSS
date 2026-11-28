@@ -72,12 +72,16 @@ test("form tracking counts first input once and only reports a confirmed submiss
   }
 });
 
-test("social tags work without a referrer and override misleading app referrers", () => {
-  for (const source of ["instagram", "bluesky", "facebook"]) {
+test("social and poster tags work without a referrer and override misleading app referrers", () => {
+  for (const source of ["instagram", "bluesky", "facebook", "poster_qr"]) {
     assert.deepEqual(trafficAttribution(`https://pewss.org/?utm_source=${source}`, ""), { source, method: "tagged_link" });
   }
   assert.equal(trafficAttribution("https://pewss.org/?utm_source=bluesky", "https://facebook.com/").source, "bluesky");
   assert.equal(trafficAttribution("https://pewss.org/?utm_source=private@example.com", "").source, "direct_or_unknown");
+  const posterUrl = "https://pewss.org/apply?utm_source=poster_qr&utm_medium=qr&utm_campaign=pewss2027";
+  assert.deepEqual(trafficAttribution(posterUrl, "https://instagram.com/"), { source: "poster_qr", method: "tagged_link" });
+  assert.equal(sanitiseAnalyticsUrl(posterUrl), "https://pewss.org/apply");
+  assert.equal(trafficAttribution("https://pewss.org/apply", "").source, "direct_or_unknown");
 });
 
 test("social host matching does not mistake unrelated hosts or private internal paths for social referrals", () => {

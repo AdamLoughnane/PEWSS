@@ -8,7 +8,7 @@ const regions = new Intl.DisplayNames(["en-IE"], { type: "region" });
 function country(label: string) {
   try { return /^[A-Z]{2}$/.test(label) ? regions.of(label) ?? label : label; } catch { return label; }
 }
-const socialNames: Record<string, string> = { instagram: "Instagram", bluesky: "Bluesky", facebook: "Facebook", other: "Other referrals", direct_or_unknown: "Direct or unknown" };
+const sourceNames: Record<string, string> = { instagram: "Instagram", bluesky: "Bluesky", facebook: "Facebook", poster_qr: "Poster QR code", other: "Other referrals", direct_or_unknown: "Direct or unknown" };
 
 export function DateFilters({ range }: { range?: AnalyticsRange }) {
   const today = new Date().toISOString().slice(0, 10);
@@ -72,9 +72,12 @@ function TrafficTrend({ report }: { report: AnalyticsReport }) {
 
 export function AnalyticsView({ report }: { report: AnalyticsReport }) {
   const eventTotal = (name: string) => report.events.data ? report.events.data.find((row) => row.label === name)?.total ?? 0 : undefined;
+  const poster = report.sources.data?.find((row) => row.label === "poster_qr");
   const cards = [
     { label: "Visitors", value: report.totals.data?.visitors, note: "Vercel’s estimated visitor count" },
     { label: "Page views", value: report.totals.data?.pageviews, note: "Public pages viewed" },
+    { label: "Poster QR visitors", value: report.sources.data ? poster?.visitors ?? 0 : undefined, note: "Estimated visitors using the tagged poster link" },
+    { label: "Poster QR arrivals", value: report.sources.data ? poster?.total ?? 0 : undefined, note: "Recorded arrivals, including repeat visits" },
     { label: "Applications started", value: eventTotal("Application started"), note: "First interaction with the form" },
     { label: "Applications submitted", value: eventTotal("Application submitted"), note: "Successful form confirmations" },
   ];
@@ -86,7 +89,7 @@ export function AnalyticsView({ report }: { report: AnalyticsReport }) {
     <TrafficTrend report={report} />
     <div className={styles.grid}>
       <BreakdownPanel title="Countries" description="Approximate visitor locations, based on their network connection." section={report.countries} label={country} />
-      <BreakdownPanel title="Social sources" description="Sources recorded by the Visit source event. Tagged links identify Instagram, Bluesky and Facebook." section={report.sources} metric="Arrivals" label={(s) => socialNames[s] ?? s} />
+      <BreakdownPanel title="Traffic sources" description="Sources recorded by the Visit source event. Tagged links identify the poster QR code, Instagram, Bluesky and Facebook." section={report.sources} metric="Arrivals" label={(s) => sourceNames[s] ?? s} />
       <BreakdownPanel title="Pages" section={report.pages} />
       <BreakdownPanel title="Referring websites" description="Referrers supplied by browsers. Some apps hide this information." section={report.referrers} label={(s) => s === "Unknown" ? "Direct or unknown" : s} />
       <BreakdownPanel title="Clicks and applications" section={report.events} metric="Events" />
@@ -96,7 +99,8 @@ export function AnalyticsView({ report }: { report: AnalyticsReport }) {
     <aside className={styles.notes}>
       <h2>Reading these figures</h2>
       <p>These are Vercel’s figures for the production website. Match the dates and Production environment in Vercel when comparing; newly received events can take a little time to appear. Visitor totals come directly from Vercel, rather than adding up daily counts.</p>
-      <p>Social-source arrivals and application events are activity counts, not individual people. Repeat visits and verification traffic are included. Blocked tracking can reduce the counts. Your <Link href="/admin" prefetch={false}>applications list</Link> remains the definitive record of submitted applications.</p>
+      <p>Source arrivals and application events are activity counts, not individual people. Repeat visits and verification traffic are included. Blocked tracking can reduce the counts. Your <Link href="/admin" prefetch={false}>applications list</Link> remains the definitive record of submitted applications.</p>
+      <p>Poster figures require the tagged QR link. The original poster links directly to /apply, so its scans cannot be distinguished from other direct visits or recovered retrospectively. These figures count visits after opening the tagged link, not scans that never open the website. Sharing the tagged link also counts towards the poster source.</p>
       <p>Reports show up to 100 entries per category, with any remaining entries grouped by Vercel as “Others”. Private admin pages, application answers and photographs are excluded from tracking.</p>
     </aside>
   </>;
