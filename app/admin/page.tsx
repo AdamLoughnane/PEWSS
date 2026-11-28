@@ -8,6 +8,7 @@ import { query } from "../../lib/admin/database";
 import type { ApplicantSummary } from "../../lib/admin/model";
 import { AdminLogin, PasskeySetup, SignOut } from "./login-form";
 import styles from "./admin.module.css";
+import { AdminNavigation } from "./admin-navigation";
 export default async function AdminPage({
   searchParams,
 }: {
@@ -48,6 +49,7 @@ export default async function AdminPage({
     `/admin?${new URLSearchParams({ q, status, page: String(p) })}`;
   return (
     <>
+      <AdminNavigation current="applications" />
       <div className={styles.top}>
         <div>
           <p className={styles.subtitle}>PEWSS 2027 · (non)Self and Space</p>

@@ -1,6 +1,17 @@
 .shell {
   min-height: 100svh;
 }
+.navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+.navigation a { padding: 0 0 14px; }
+.navigation a[aria-current="page"] { border-bottom: 2px solid var(--ink); font-weight: 600; }
+.navigation a:hover { color: #866f58; }
 .main {
   width: min(1180px, calc(100% - 64px));
   margin: 0 auto;
